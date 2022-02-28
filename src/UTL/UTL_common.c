@@ -51,3 +51,29 @@ const UTL_TypeInfo UTL_TypeInfoFloat = (UTL_TypeInfo) {
     .copyFunc = &UTL_CopyFloat,
     .name     = "float"
 };
+
+// functions and type information for char data type
+static int UTL_CompareChar(const void *p1, const void *p2) {
+    const char *c1 = (const char*)p1;
+    const char *c2 = (const char*)p2;
+
+    if (*c1 < *c2) return -1;
+    if (*c1 > *c2) return  1;
+    return 0;
+}
+
+static unsigned UTL_HashChar(const void *p){
+    return (unsigned) *(const char*)p;
+}
+
+static void UTL_CopyChar(void *dst, const void *src){
+    *((char*)dst) = *((char*)src);
+}
+
+const UTL_TypeInfo UTL_TypeInfoChar = (UTL_TypeInfo) {
+    .size     = sizeof(char),
+    .cmpFunc  = &UTL_CompareChar,
+    .hashFunc = &UTL_HashChar,
+    .copyFunc = &UTL_CopyChar,
+    .name     = "char"
+};
