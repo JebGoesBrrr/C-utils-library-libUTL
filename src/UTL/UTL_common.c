@@ -28,11 +28,11 @@ const UTL_TypeInfo UTL_TypeInfoInt = (UTL_TypeInfo) {
 
 // functions and type information for float data type
 static int UTL_CompareFloat(const void *p1, const void *p2) {
-    const float *i1 = (const float*)p1;
-    const float *i2 = (const float*)p2;
+    const float *f1 = (const float*)p1;
+    const float *f2 = (const float*)p2;
 
-    if (*i1 < *i2) return -1;
-    if (*i1 > *i2) return  1;
+    if (*f1 < *f2) return -1;
+    if (*f1 > *f2) return  1;
     return 0;
 }
 
