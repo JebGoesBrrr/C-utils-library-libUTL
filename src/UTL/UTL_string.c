@@ -50,5 +50,12 @@ UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
 }
 
 UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr) {
-    
+    int length = (cstr == NULL ? 0 : strlen(cstr));
+    int newLength = string->length + length;
+
+    string = UTL_ReserveString(string, newLength);
+    strcpy(string->buf + string->length, cstr);
+    string->length = newLength;
+
+    return string;
 }
