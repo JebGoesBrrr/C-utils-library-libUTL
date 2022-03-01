@@ -35,5 +35,37 @@ extern UTL_String* UTL_ReserveString(UTL_String *string, int minLength);
 extern UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr);
 
 
+/** prepend the contetns of a given c-string to a UTL_String
+ *  does nothing if the given string is NULL
+ *  returns the new string (possible relocation) */
+extern UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr);
+
+
+/** insert the contetns of a given c-string into a UTL_String
+ *  does nothing if the given string is NULL
+ *  returns the new string (possible relocation) */
+extern UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr);
+
+
+/** find the first index of any of the given characters in a string, at or after @offset
+ *  returns a negative value of no match is found */
+extern int UTL_FindFirstOfAnyInString(UTL_String *string, const char *match, int offset);
+
+
+/** find the first index of a full match of the given pattern in a string, at or after @offset
+ *  returns a negative value of no match is found */
+extern int UTL_FindFirstOfAllInString(UTL_String *string, const char *match, int offset);
+
+
+/** find the last index of any of the given characters in a string, at or before @offset
+ *  returns a negative value of no match is found */
+extern int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int offset);
+
+
+/** find the last index of a full match of the given pattern in a string, at or before @offset
+ *  returns a negative value of no match is found */
+extern int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset);
+
+
 
 #endif // UTL_STRING_H
