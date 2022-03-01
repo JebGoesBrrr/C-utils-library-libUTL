@@ -37,7 +37,8 @@ UTL_String* UTL_CreateString(const char *from) {
 }
 
 UTL_String* UTL_DestroyString(UTL_String *string) {
-
+    free(string);
+    return NULL;
 }
 
 UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
