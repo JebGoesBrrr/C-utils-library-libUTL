@@ -20,16 +20,17 @@ static int UTL_ComputeNewStringCapacity(int minLength, int currentCapacity) {
     return currentCapacity;
 }
 
-UTL_String* UTL_CreateString(const char *from) {
-    int fromLength = (from == NULL ? 0 : strlen(from));
-    int capacity   = UTL_ComputeNewStringCapacity(fromLength, 0);
+UTL_String* UTL_CreateString(const char *cstr, int length) {
+    if (cstr == NULL) length = 0;
+    if (length < 0) length = strlen(cstr);
+    int capacity   = UTL_ComputeNewStringCapacity(length, 0);
 
     UTL_String *string = (UTL_String*) malloc(sizeof(UTL_String) + sizeof(char) * capacity);
 
     string->capacity = capacity;
-    string->length   = fromLength;
+    string->length   = length;
 
-    memcpy(string->buf, from, sizeof(char) * fromLength);
+    memcpy(string->buf, cstr, sizeof(char) * length);
     string->buf[string->length] = 0;
 
     return string;
@@ -49,8 +50,9 @@ UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
     return string;
 }
 
-UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr) {
-    int length = (cstr == NULL ? 0 : strlen(cstr));
+UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length) {
+    if (cstr == NULL) length = 0;
+    if (length < 0) length = strlen(cstr);
     int newLength = string->length + length;
 
     string = UTL_ReserveString(string, newLength);
@@ -60,8 +62,9 @@ UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr) {
     return string;
 }
 
-UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr) {
-    int length = (cstr == NULL ? 0 : strlen(cstr));
+UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length) {
+    if (cstr == NULL) length = 0;
+    if (length < 0) length = strlen(cstr);
     int newLength = string->length + length;
 
     string = UTL_ReserveString(string, newLength);
@@ -72,11 +75,12 @@ UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr) {
     return string;
 }
 
-UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr) {
+UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int length) {
     if (at < 0) at = 0;
     if (at > string->length) at = string->length;
 
-    int length = (cstr == NULL ? 0 : strlen(cstr));
+    if (cstr == NULL) length = 0;
+    if (length < 0) length = strlen(cstr);
     int newLength = string->length + length;
 
     string = UTL_ReserveString(string, newLength);

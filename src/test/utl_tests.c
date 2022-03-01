@@ -4,15 +4,15 @@ int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
 
-    UTL_String *s = UTL_CreateString("Hello");
-    s = UTL_AppendToString(s, " ");
-    s = UTL_AppendToString(s, "World");
+    UTL_String *s = UTL_CreateString("Hello", -1);
+    s = UTL_AppendToString(s, " ", -1);
+    s = UTL_AppendToString(s, "World", -1);
 
     printf("%s\n", s->buf);
 
     s = UTL_DestroyString(s);
 
-    s = UTL_CreateString("x  y   z   xyz   ");
+    s = UTL_CreateString("x  y   z   xyz   ", -1);
 
     int i;
 

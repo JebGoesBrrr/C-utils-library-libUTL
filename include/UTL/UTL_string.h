@@ -16,8 +16,9 @@ typedef struct {
 
 /** create a new UTL_String and initialze with given c-string
  *  leaves the new string empty if @from is null
+ *  will compute length if @length is negative
  *  the retuned string needs to be destroyed with UTL_DestroyString() */
-extern UTL_String* UTL_CreateString(const char *from);
+extern UTL_String* UTL_CreateString(const char *cstr, int length);
 
 
 /** free memory of a given UTL_String. returns null */
@@ -31,20 +32,23 @@ extern UTL_String* UTL_ReserveString(UTL_String *string, int minLength);
 
 /** append the contetns of a given c-string to a UTL_String
  *  does nothing if the given string is NULL
+ *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-extern UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr);
+extern UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length);
 
 
 /** prepend the contetns of a given c-string to a UTL_String
  *  does nothing if the given string is NULL
+ *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-extern UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr);
+extern UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length);
 
 
 /** insert the contetns of a given c-string into a UTL_String
  *  does nothing if the given string is NULL
+ *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-extern UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr);
+extern UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int length);
 
 
 /** find the first index of any of the given characters in a string, at or after @offset
