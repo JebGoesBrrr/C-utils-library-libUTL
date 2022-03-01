@@ -86,3 +86,33 @@ UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr) {
 
     return string;
 }
+
+int UTL_FindFirstOfAnyInString(UTL_String *string, const char *match, int offset) {
+    for (int i = offset < 0 ? 0 : offset; i < string->length; i++)
+        if (strchr(match, string->buf[i]))
+            return i;
+    return -1;
+}
+
+int UTL_FindFirstOfAllInString(UTL_String *string, const char *match, int offset) {
+    int lenMatch = strlen(match);
+    for (int i = offset < 0 ? 0 : offset; i < string->length - lenMatch; i++)
+        if (strncmp(string->buf + i, match, lenMatch) == 0)
+            return i;
+    return -1;
+}
+
+int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int offset) {
+    for (int i = offset >= string->length ? string->length - 1 : offset; i >= 0; i--)
+        if (strchr(match, string->buf[i]))
+            return i;
+    return -1;
+}
+
+int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset) {
+    int lenMatch = strlen(match);
+    for (int i = offset >= string->length - lenMatch ? string->length - lenMatch - 1 : offset; i >= 0; i--)
+        if (strncmp(string->buf + i, match, lenMatch) == 0)
+            return i;
+    return -1;
+}
