@@ -2,6 +2,11 @@
 #define UTL_COMMON_H
 
 #include <stdint.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 // compare function type
 typedef int (UTL_CmpFunc)(const void*, const void*);

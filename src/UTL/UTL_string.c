@@ -1,6 +1,5 @@
-#include "UTL/UTL_string.h"
+#include "UTL/UTL.h"
 
-#include <string.h>
 
 #define UTL_STRING_INITIAL_CAPACITY 64
 
