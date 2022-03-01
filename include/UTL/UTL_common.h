@@ -37,9 +37,9 @@ typedef struct {
 
 
 // type info structs for C's primitive data types
-extern UTL_TypeInfo UTL_TypeInfoInt;
-extern UTL_TypeInfo UTL_TypeInfoChar;
-extern UTL_TypeInfo UTL_TypeInfoFloat;
+extern const UTL_TypeInfo UTL_TypeInfoInt;
+extern const UTL_TypeInfo UTL_TypeInfoChar;
+extern const UTL_TypeInfo UTL_TypeInfoFloat;
 
 
 
