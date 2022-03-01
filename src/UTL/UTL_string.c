@@ -54,7 +54,34 @@ UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr) {
     int newLength = string->length + length;
 
     string = UTL_ReserveString(string, newLength);
-    strcpy(string->buf + string->length, cstr);
+    memcpy(string->buf + string->length, cstr, length + 1);
+    string->length = newLength;
+
+    return string;
+}
+
+UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr) {
+    int length = (cstr == NULL ? 0 : strlen(cstr));
+    int newLength = string->length + length;
+
+    string = UTL_ReserveString(string, newLength);
+    memmove(string->buf + length, string->buf, string->length + 1);
+    memcpy(string->buf, cstr, length);
+    string->length = newLength;
+
+    return string;
+}
+
+UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr) {
+    if (at < 0) at = 0;
+    if (at > string->length) at = string->length;
+
+    int length = (cstr == NULL ? 0 : strlen(cstr));
+    int newLength = string->length + length;
+
+    string = UTL_ReserveString(string, newLength);
+    memmove(string->buf + at + length, string->buf + at, string->length + 1 - at);
+    memcpy(string->buf + at, cstr, length);
     string->length = newLength;
 
     return string;
