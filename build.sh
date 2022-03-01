@@ -10,4 +10,18 @@ function buildUtilsLibrary() {
     eval $CMD
 }
 
+function buildTests() {
+    mkdir -p build
+    for file in ./src/test/*
+    do
+        if [[ -f $file ]]; then
+            name="$(basename -- $file .c)"
+            CMD="$CC $CFLAGS $file -o build/$name.exe -L build -lUTL"
+            echo $CMD
+            eval $CMD
+        fi
+    done
+}
+
 buildUtilsLibrary
+buildTests
