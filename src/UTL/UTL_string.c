@@ -41,7 +41,12 @@ UTL_String* UTL_DestroyString(UTL_String *string) {
 }
 
 UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
+    if (minLength < string->capacity)
+        return string;
 
+    string->capacity = UTL_ComputeNewStringCapacity(minLength, string->capacity);
+    string = (UTL_String*) realloc(string, sizeof(UTL_String) + sizeof(char) * string->capacity);
+    return string;
 }
 
 UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr) {
