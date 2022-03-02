@@ -101,18 +101,27 @@ UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
 UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int length) {
+
+    // snap insert position to boundaries
     if (at < 0) at = 0;
     if (at > string->length) at = string->length;
 
-    if (cstr == NULL) length = 0;
-    if (length < 0) length = strlen(cstr);
+    // compute how many characters need to be copied
+    if (cstr == NULL) length = 0; // nothing to copy
+    if (length < 0) length = strlen(cstr); // compute length using null terminator
+    // else: use given length
+
+    // compute and reserve new capacity
     int newLength = string->length + length;
-
     string = UTL_ReserveString(string, newLength);
-    memmove(string->buf + at + length, string->buf + at, string->length + 1 - at);
-    memcpy(string->buf + at, cstr, length);
-    string->length = newLength;
 
+    // make a gap for the new content
+    memmove(string->buf + at + length, string->buf + at, string->length + 1 - at);
+
+    // copy new content into gap
+    memcpy(string->buf + at, cstr, length);
+
+    string->length = newLength;
     return string;
 }
 
