@@ -83,15 +83,7 @@ UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
 UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length) {
-    if (cstr == NULL) length = 0;
-    if (length < 0) length = strlen(cstr);
-    int newLength = string->length + length;
-
-    string = UTL_ReserveString(string, newLength);
-    memcpy(string->buf + string->length, cstr, length + 1);
-    string->length = newLength;
-
-    return string;
+    return UTL_InsertToString(string, string->length, cstr, length); // insert behind last position
 }
 
 
@@ -100,16 +92,7 @@ UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length)
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
 UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length) {
-    if (cstr == NULL) length = 0;
-    if (length < 0) length = strlen(cstr);
-    int newLength = string->length + length;
-
-    string = UTL_ReserveString(string, newLength);
-    memmove(string->buf + length, string->buf, string->length + 1);
-    memcpy(string->buf, cstr, length);
-    string->length = newLength;
-
-    return string;
+    return UTL_InsertToString(string, 0, cstr, length); // insert before first position
 }
 
 
