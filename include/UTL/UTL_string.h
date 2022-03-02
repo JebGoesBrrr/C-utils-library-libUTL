@@ -70,6 +70,7 @@ extern int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int 
  *  returns a negative value of no match is found */
 extern int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset);
 
-
+/** create a duplicate of a given string and return it */
+extern int UTL_DuplicateString(UTL_String *string, const char *match, int offset);
 
 #endif // UTL_STRING_H

@@ -168,3 +168,8 @@ int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset)
             return i;
     return -1;
 }
+
+/** create a duplicate of a given string and return it */
+int UTL_DuplicateString(UTL_String *string) {
+    return UTL_CreateString(string->buf, string->length);
+}
