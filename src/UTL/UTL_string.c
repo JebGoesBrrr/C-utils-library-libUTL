@@ -68,11 +68,13 @@ UTL_String* UTL_DuplicateString(const UTL_String *string) {
  *  the returned string needs to be destroyed with UTL_DestroyString() */
 UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
     
-    // snap substring to string boundaries
-    // return empty string of length @length if @first is out of bounds
+    // snap @first to boundaries
     if (first < 0) first = 0;
-    if (first > string->length)
-        return UTL_CreateString(NULL, length);
+    if (first >= string->length) return UTL_CreateString(NULL, -1);
+
+    // snap @length to boundaries
+    int maxLength = string->length - first;
+    if (length > maxLength) length = maxLength;
 
     return UTL_CreateString(string->buf + first, length); 
 }
