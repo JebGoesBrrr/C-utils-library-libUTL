@@ -56,6 +56,13 @@ UTL_String* UTL_CreateString(const char *cstr, int length) {
 }
 
 
+/** create a duplicate of a given string
+ *  the returned string needs to be destroyed with UTL_DestroyString() */
+UTL_String* UTL_DuplicateString(const UTL_String *string) {
+    return UTL_CreateString(string->buf, string->length);
+}
+
+
 /** free memory of a given UTL_String. returns null */
 UTL_String* UTL_DestroyString(UTL_String *string) {
     free(string);
@@ -167,9 +174,4 @@ int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset)
         if (strncmp(string->buf + i, match, lenMatch) == 0)
             return i;
     return -1;
-}
-
-/** create a duplicate of a given string and return it */
-int UTL_DuplicateString(UTL_String *string) {
-    return UTL_CreateString(string->buf, string->length);
 }

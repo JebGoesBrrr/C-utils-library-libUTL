@@ -21,6 +21,11 @@ typedef struct {
 extern UTL_String* UTL_CreateString(const char *cstr, int length);
 
 
+/** create a duplicate of a given string
+ *  the returned string needs to be destroyed with UTL_DestroyString() */
+extern UTL_String* UTL_DuplicateString(const UTL_String *string);
+
+
 /** free memory of a given UTL_String. returns null */
 extern UTL_String* UTL_DestroyString(UTL_String *string);
 
@@ -70,7 +75,5 @@ extern int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int 
  *  returns a negative value if no match is found */
 extern int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset);
 
-/** create a duplicate of a given string and return it */
-extern int UTL_DuplicateString(UTL_String *string);
 
 #endif // UTL_STRING_H
