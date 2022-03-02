@@ -140,7 +140,8 @@ int UTL_FindFirstOfAnyInString(UTL_String *string, const char *match, int offset
  *  returns a negative value of no match is found */
 int UTL_FindFirstOfAllInString(UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
-    for (int i = offset < 0 ? 0 : offset; i < string->length - lenMatch; i++)
+    if (lenMatch == 0) return -1;
+    for (int i = offset < 0 ? 0 : offset; i < string->length - lenMatch + 1; i++)
         if (strncmp(string->buf + i, match, lenMatch) == 0)
             return i;
     return -1;
@@ -161,7 +162,8 @@ int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int offset)
  *  returns a negative value of no match is found */
 int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
-    for (int i = offset >= string->length - lenMatch ? string->length - lenMatch - 1 : offset; i >= 0; i--)
+    if (lenMatch == 0) return -1;
+    for (int i = offset > string->length - lenMatch ? string->length - lenMatch : offset; i >= 0; i--)
         if (strncmp(string->buf + i, match, lenMatch) == 0)
             return i;
     return -1;
