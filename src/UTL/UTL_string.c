@@ -197,27 +197,17 @@ int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset)
 /** remove parts of a string
  *  remove everything starting at @first and of length @length */
 void UTL_RemoveFromString(UTL_String *string, int first, int length) {
+
     // snap @first to boundaries
     if (first < 0) first = 0;
-    if (first >= string->length) return string; // nothing to delete
+    if (first >= string->length) return; // nothing to delete
 
-    // snap removable area to string area
-    int maxRemove = string->length - first;
-    if (length > maxRemove) {
-        // set new length and end of string buffer in order to remove everything starting at @from
-        string->length = first;
-        string->buf[string->length] = 0;
-        return string;
-    }
-    
-    // get size of substring behind removable area
-    int maxCopy = string->length - (first + length);
-    // copy substring at the end into removable area
-    memcpy(string->buf + first, string->buf + first + length, length);
-    // set new length and end of string buffer
-    string->length = first + maxCopy;
-    string->buf[string->length] = 0;
-    return string;
+    // snap @length to boundaries
+    int maxLength = string->length - first;
+    if (length > maxLength) length = maxLength;
+
+    memmove(string->buf + first, string->buf + first + length, string->length + 2 - first - length);
+    string->length -= length;
 }
 
 
