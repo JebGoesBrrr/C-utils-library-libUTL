@@ -1,12 +1,18 @@
 #include "UTL/UTL.h"
 
 
+
+/* the initial capacity of a string's buffer */
 #define UTL_STRING_INITIAL_CAPACITY 64
 
+
+/* one grow step for a string's capacity */
 static inline int UTL_GrowCapacity(int capacity) {
     return capacity + (capacity >> 1); // capacity *= 1.5
 }
 
+
+/* compute what a string's capacity should be, given it's current capacity and the required minimum length */
 static int UTL_ComputeNewStringCapacity(int minLength, int currentCapacity) {
     if (minLength < UTL_STRING_INITIAL_CAPACITY)
         return UTL_STRING_INITIAL_CAPACITY;
@@ -26,15 +32,23 @@ static int UTL_ComputeNewStringCapacity(int minLength, int currentCapacity) {
  *  will compute length if @length is negative
  *  the retuned string needs to be destroyed with UTL_DestroyString() */
 UTL_String* UTL_CreateString(const char *cstr, int length) {
-    if (cstr == NULL) length = 0;
-    if (length < 0) length = strlen(cstr);
+
+    // compute how many characters need to be copied on initialisation
+    if (cstr == NULL) length = 0; // nothing to copy
+    if (length < 0) length = strlen(cstr); // if negative -> compute length using null terminator
+    // else, given length is used
+
+    // compute initial capacity
     int capacity   = UTL_ComputeNewStringCapacity(length, 0);
 
+    // allocate string object + buffer
     UTL_String *string = (UTL_String*) malloc(sizeof(UTL_String) + sizeof(char) * capacity);
 
+    // init bookkeeping members
     string->capacity = capacity;
     string->length   = length;
 
+    // init buffer
     memcpy(string->buf, cstr, sizeof(char) * length);
     string->buf[string->length] = 0;
 
@@ -52,9 +66,12 @@ UTL_String* UTL_DestroyString(UTL_String *string) {
 /** make sure the given UTL_String has enough capacity for at least @minLength
  *  returns the new string (possible relocation) */
 UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
+
+    // do nothing if there is enough space
     if (minLength < string->capacity)
         return string;
 
+    // else: compute required capacity and relocate string (contents stays unchanged)
     string->capacity = UTL_ComputeNewStringCapacity(minLength, string->capacity);
     string = (UTL_String*) realloc(string, sizeof(UTL_String) + sizeof(char) * string->capacity);
     return string;
