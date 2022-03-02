@@ -224,5 +224,19 @@ void UTL_RemoveFromString(UTL_String *string, int first, int length) {
 /** remove parts of a string
  *  remove everything except content starting at @first and of length @length */
 void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
-    //TODO
+    
+    // snap @first to boundaries
+    if (first < 0) first = 0;
+    if (first >= string->length) UTL_RemoveFromString(string, 0, length); // nothing to keep
+
+    // snap @length to boundaries
+    int maxLength = string->length - first;
+    if (length > maxLength) length = maxLength;
+
+    // copy area to keep into beginning of string
+    memcpy(string->buf, string->buf + first, length);
+    // set new length and end of string buffer
+    string->length = length;
+    string->buf[string->length] = 0;
+    return string;
 }
