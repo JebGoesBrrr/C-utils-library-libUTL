@@ -67,8 +67,14 @@ UTL_String* UTL_DuplicateString(const UTL_String *string) {
  *  the new string contains the contents starting with @first and has length @length
  *  the returned string needs to be destroyed with UTL_DestroyString() */
 UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
-    // TODO
-    return NULL;
+    
+    // snap substring to string boundaries
+    // return empty string of length @length if @first is out of bounds
+    if (first < 0) first = 0;
+    if (first > string->length)
+        return UTL_CreateString(NULL, length);
+
+    return UTL_CreateString(string->buf + first, length); 
 }
 
 
