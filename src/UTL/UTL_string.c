@@ -192,3 +192,17 @@ int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset)
             return i;
     return -1;
 }
+
+
+/** remove parts of a string
+ *  remove everything starting at @first and of length @length */
+void UTL_RemoveFromString(UTL_String *string, int first, int length) {
+    // TODO
+}
+
+
+/** remove parts of a string
+ *  remove everything except content starting at @first and of length @length */
+void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
+    // TODO
+}

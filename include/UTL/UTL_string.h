@@ -82,4 +82,14 @@ extern int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int 
 extern int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset);
 
 
+/** remove parts of a string
+ *  remove everything starting at @first and of length @length */
+extern void UTL_RemoveFromString(UTL_String *string, int first, int length);
+
+
+/** remove parts of a string
+ *  remove everything except content starting at @first and of length @length */
+extern void UTL_RemoveFromStringRev(UTL_String *string, int first, int length);
+
+
 #endif // UTL_STRING_H
