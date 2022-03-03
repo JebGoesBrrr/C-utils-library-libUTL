@@ -1,0 +1,11 @@
+Fri Mar  4 00:46:21 WEST 2022
+
+** run test class 'string'
+  create		PASS
+  duplicate		PASS
+  substring		PASS
+  substringRev		PASS
+
+
+4 passed
+0 failed
