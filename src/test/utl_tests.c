@@ -43,5 +43,23 @@ int main(int argc, char **argv) {
         printf("found @ pos %i\n", i);
         i = UTL_FindLastOfAllInString(s, "xyz", i - 1);
     }
+
+    printf("-----------------------\n");
+    s = UTL_CreateString("Hello World!", -1);
+    UTL_String *s2 = UTL_DuplicateString(s);
+    printf("%s\n", s2->buf);
+
+    printf("-----------------------\n");
+    s2 = UTL_Substring(s,0,5); 
+    printf("%s\n", s2->buf);
+    s2 = UTL_Substring(s,6,6);
+    printf("%s\n", s2->buf);
+
+    // out of bounds tests
+    printf("-----------------------\n");
+    s2 = UTL_Substring(s,-2,5); 
+    printf("%s\n", s2->buf);
+    s2 = UTL_Substring(s,6,10);
+    printf("%s\n", s2->buf);
     return 0;
 }
