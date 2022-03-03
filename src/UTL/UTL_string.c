@@ -84,11 +84,18 @@ UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
  *  the new string contains all but the contents starting with @first of length @length
  *  the returned string needs to be destroyed with UTL_DestroyString() */
 UTL_String* UTL_SubstringRev(const UTL_String *string, int first, int length) {
-    // TODO
-    (void)string;
-    (void)first;
-    (void)length;
-    return UTL_CreateString(NULL, -1);
+    
+    // snap @first to boundaries
+    if (first < 0) first = 0;
+    if (first >= string->length) return UTL_CreateString(NULL, -1);
+
+    // snap @length to boundaries
+    int maxLength = string->length - first;
+    if (length > maxLength) length = maxLength;
+    
+    UTL_String *substring = UTL_CreateString(string->buf, first);
+    substring = UTL_AppendToString(substring, string->buf + first + length, -1);
+    return substring;
 }
 
 
