@@ -80,6 +80,15 @@ UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
 }
 
 
+/** create a substring of a given string
+ *  the new string contains all but the contents starting with @first of length @length
+ *  the returned string needs to be destroyed with UTL_DestroyString() */
+UTL_String* UTL_SubstringRev(const UTL_String *string, int first, int length) {
+    // TODO
+    return UTL_CreateString(NULL, -1);
+}
+
+
 /** free memory of a given UTL_String. returns null */
 UTL_String* UTL_DestroyString(UTL_String *string) {
     free(string);
