@@ -1,65 +1,79 @@
 #include "UTL/UTL.h"
 
+#define assertPass(cond) pass = pass && (cond)
+
+
+static bool testStringCreate(void) {
+    bool pass = true;
+    UTL_String *s = NULL;
+
+    s = UTL_CreateString(NULL, -1);
+    assertPass(strcmp(s->buf, "") == 0);
+    assertPass(s->length == 0);
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", -1);
+    assertPass(strcmp(s->buf, "Hello World") == 0);
+    assertPass(s->length == strlen("Hello World"));
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", 0);
+    assertPass(strcmp(s->buf, "") == 0);
+    assertPass(s->length == 0);
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", 3);
+    assertPass(strcmp(s->buf, "Hel") == 0);
+    assertPass(s->length == strlen("Hel"));
+    s = UTL_DestroyString(s);
+
+    return pass;
+}
+
+
+typedef struct {
+    const char *label;
+    bool (*func)(void);
+} TestFuncEntry;
+
+
+static TestFuncEntry stringTests[] = {
+    { "create", &testStringCreate },
+    { NULL, NULL }
+};
+
+
+typedef struct {
+    const char *label;
+    TestFuncEntry *funcs;
+} TestClassEntry;
+
+
+static TestClassEntry allTests[] = {
+    { "string", (TestFuncEntry*) &stringTests},
+    { NULL, NULL }
+};
+
+
 int main(int argc, char **argv) {
     (void)argc;
     (void)argv;
 
-    UTL_String *s = UTL_CreateString("Hello", -1);
-    s = UTL_AppendToString(s, " ", -1);
-    s = UTL_AppendToString(s, "World", -1);
+    int numPassed = 0;
+    int numFailed = 0;
 
-    printf("%s\n", s->buf);
-
-    s = UTL_DestroyString(s);
-
-    s = UTL_CreateString("x  y   z   xyz   ", -1);
-
-    int i;
-
-    printf("-----------------------\n");
-    i = UTL_FindFirstOfAnyInString(s, "xyz", 0);
-    while (i >= 0) {
-        printf("found @ pos %i\n", i);
-        i = UTL_FindFirstOfAnyInString(s, "xyz", i + 1);
+    for (int i = 0; allTests[i].label; i++) {
+        printf("** run test class '%s'\n", allTests[i].label);
+        for (int j = 0; allTests[i].funcs[j].label; j++) {
+            printf("  %s\t\t", allTests[i].funcs[j].label);
+            bool result = allTests[i].funcs[j].func();
+            if (result) numPassed++;
+            else        numFailed++;
+            printf("%s\n", result ? "PASS" : "FAILED");
+        }
     }
 
-    printf("-----------------------\n");
-    i = UTL_FindFirstOfAllInString(s, "xyz", 0);
-    while (i >= 0) {
-        printf("found @ pos %i\n", i);
-        i = UTL_FindFirstOfAllInString(s, "xyz", i + 1);
-    }
+    printf("\n\n%i passed\n%i failed\n", numPassed, numFailed);
 
-    printf("-----------------------\n");
-    i = UTL_FindLastOfAnyInString(s, "xyz", s->length - 1);
-    while (i >= 0) {
-        printf("found @ pos %i\n", i);
-        i = UTL_FindLastOfAnyInString(s, "xyz", i - 1);
-    }
-
-    printf("-----------------------\n");
-    i = UTL_FindLastOfAllInString(s, "xyz", s->length - 1);
-    while (i >= 0) {
-        printf("found @ pos %i\n", i);
-        i = UTL_FindLastOfAllInString(s, "xyz", i - 1);
-    }
-
-    printf("-----------------------\n");
-    s = UTL_CreateString("Hello World!", -1);
-    UTL_String *s2 = UTL_DuplicateString(s);
-    printf("%s\n", s2->buf);
-
-    printf("-----------------------\n");
-    s2 = UTL_Substring(s,0,5); 
-    printf("%s\n", s2->buf);
-    s2 = UTL_Substring(s,6,6);
-    printf("%s\n", s2->buf);
-
-    // out of bounds tests
-    printf("-----------------------\n");
-    s2 = UTL_Substring(s,-2,5); 
-    printf("%s\n", s2->buf);
-    s2 = UTL_Substring(s,6,10);
-    printf("%s\n", s2->buf);
     return 0;
 }
