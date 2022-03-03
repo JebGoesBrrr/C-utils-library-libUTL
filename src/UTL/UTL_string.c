@@ -242,3 +242,19 @@ void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
     string->buf[length] = 0;
     string->length = length;
 }
+
+
+/** remove all occurences of any of the characters in @match from @string
+ *  returnes the number of characters that where removed */
+int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
+    // TODO
+    return 0;
+}
+
+
+/** remove all occurences of full matches of the characters in @match from @string
+ *  returnes the number of characters that where removed */
+int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
+    // TODO
+    return 0;
+}

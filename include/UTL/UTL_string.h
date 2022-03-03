@@ -98,4 +98,14 @@ extern void UTL_RemoveFromString(UTL_String *string, int first, int length);
 extern void UTL_RemoveFromStringRev(UTL_String *string, int first, int length);
 
 
+/** remove all occurences of any of the characters in @match from @string
+ *  returnes the number of characters that where removed */
+extern int UTL_RemoveAnyFromString(UTL_String *string, const char *match);
+
+
+/** remove all occurences of full matches of the characters in @match from @string
+ *  returnes the number of characters that where removed */
+extern int UTL_RemoveAllFromString(UTL_String *string, const char *match);
+
+
 #endif // UTL_STRING_H
