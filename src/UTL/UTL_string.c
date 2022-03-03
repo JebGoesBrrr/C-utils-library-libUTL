@@ -258,3 +258,23 @@ int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
     // TODO
     return 0;
 }
+
+
+/** split @string into newly created substrings at all occurences of any character from @match
+ *  if non null, the callback @cb will be called on each created substring: cb(aux, substr);
+ *  if @includeEmpty is false, empty substrings are ignored
+ *  returnes the number of created substrings */
+int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
+    // TODO
+    return 0;
+}
+
+
+/** split @string into newly created substrings at all occurences of a full match of @match
+ *  if non null, the callback @cb will be called on each created substring: cb(aux, substr);
+ *  if @includeEmpty is false, empty substrings are ignored
+ *  returnes the number of created substrings */
+int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
+    // TODO
+    return 0;
+}
