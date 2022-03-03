@@ -159,12 +159,17 @@ int main(int argc, char **argv) {
 
     for (int i = 0; allTests[i].label; i++) {
         printf("** run test class '%s'\n", allTests[i].label);
+
         for (int j = 0; allTests[i].funcs[j].label; j++) {
-            printf("  %s\t\t", allTests[i].funcs[j].label);
+
+            printf("  %s ", allTests[i].funcs[j].label);
+            int padding = 40 - strlen(allTests[i].funcs[j].label);
+            while (padding--) printf(".");
+
             bool result = allTests[i].funcs[j].func();
             if (result) numPassed++;
             else        numFailed++;
-            printf("%s\n", result ? "PASS" : "FAILED");
+            printf("%s\n", result ? " PASS" : " FAILED");
         }
     }
 
