@@ -85,6 +85,9 @@ UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
  *  the returned string needs to be destroyed with UTL_DestroyString() */
 UTL_String* UTL_SubstringRev(const UTL_String *string, int first, int length) {
     // TODO
+    (void)string;
+    (void)first;
+    (void)length;
     return UTL_CreateString(NULL, -1);
 }
 
@@ -248,6 +251,8 @@ void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
  *  returnes the number of characters that where removed */
 int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
     // TODO
+    (void) string;
+    (void) match;
     return 0;
 }
 
@@ -256,6 +261,8 @@ int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
  *  returnes the number of characters that where removed */
 int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
     // TODO
+    (void) string;
+    (void) match;
     return 0;
 }
 
@@ -266,6 +273,11 @@ int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
  *  returnes the number of created substrings */
 int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
     // TODO
+    (void) string;
+    (void) match;
+    (void) includeEmpty;
+    (void) cb;
+    (void) aux;
     return 0;
 }
 
@@ -276,5 +288,10 @@ int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool inclu
  *  returnes the number of created substrings */
 int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
     // TODO
+    (void) string;
+    (void) match;
+    (void) includeEmpty;
+    (void) cb;
+    (void) aux;
     return 0;
 }
