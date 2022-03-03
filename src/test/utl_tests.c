@@ -30,6 +30,98 @@ static bool testStringCreate(void) {
     return pass;
 }
 
+static bool testStringDuplicate(void) {
+    bool pass = true;
+    UTL_String *s1, *s2;
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_DuplicateString(s1);
+    assertPass(s1->length == s2->length);
+    assertPass(s1 != s2);
+    assertPass(strcmp(s1->buf, s2->buf) == 0);
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("", 0);
+    s2 = UTL_DuplicateString(s1);
+    assertPass(s1->length == s2->length);
+    assertPass(s1 != s2);
+    assertPass(strcmp(s1->buf, s2->buf) == 0);
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    return pass;
+}
+
+static bool testStringSubstring(void) {
+    bool pass = true;
+    UTL_String *s1, *s2;
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_Substring(s1, 0, strlen("Hello"));
+    assertPass(strcmp(s2->buf, "Hello") == 0);
+    assertPass(s2->length == strlen("Hello"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_Substring(s1, -5, strlen("Hello"));
+    assertPass(strcmp(s2->buf, "Hello") == 0);
+    assertPass(s2->length == strlen("Hello"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_Substring(s1, 0, 5000);
+    assertPass(strcmp(s2->buf, "Hello World") == 0);
+    assertPass(s2->length == strlen("Hello World"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_Substring(s1, strlen("Hello "), strlen("World"));
+    assertPass(strcmp(s2->buf, "World") == 0);
+    assertPass(s2->length == strlen("World"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    return pass;
+}
+
+static bool testStringSubstringRev(void) {
+    bool pass = true;
+    UTL_String *s1, *s2;
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_SubstringRev(s1, 0, strlen("Hello"));
+    assertPass(strcmp(s2->buf, " World") == 0);
+    assertPass(s2->length == strlen(" World"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_SubstringRev(s1, -5, strlen("Hello"));
+    assertPass(strcmp(s2->buf, " World") == 0);
+    assertPass(s2->length == strlen(" World"));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_SubstringRev(s1, 0, 5000);
+    assertPass(strcmp(s2->buf, "") == 0);
+    assertPass(s2->length == strlen(""));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    s1 = UTL_CreateString("Hello World", -1);
+    s2 = UTL_SubstringRev(s1, strlen("Hello "), strlen("World"));
+    assertPass(strcmp(s2->buf, "Hello ") == 0);
+    assertPass(s2->length == strlen("Hello "));
+    UTL_DestroyString(s1);
+    UTL_DestroyString(s2);
+
+    return pass;
+}
 
 typedef struct {
     const char *label;
@@ -38,7 +130,10 @@ typedef struct {
 
 
 static TestFuncEntry stringTests[] = {
-    { "create", &testStringCreate },
+    { "create",       &testStringCreate },
+    { "duplicate",    &testStringDuplicate },
+    { "substring",    &testStringSubstring },
+    { "substringRev", &testStringSubstringRev },
     { NULL, NULL }
 };
 
