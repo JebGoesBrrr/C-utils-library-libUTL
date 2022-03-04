@@ -331,3 +331,15 @@ int UTL_TrimString(UTL_String *string, const char *match) {
     UTL_RemoveFromStringRev(string, first, last - first + 1);
     return oldLength - string->length;
 }
+
+
+/** group consecuitive occurences of any characters in @match into a single occurence.
+ *  if @replace is true, the single occurence will always be the first character in @match
+ *  returns the number of characters removed */
+int UTL_GroupString(UTL_String *string, const char *match, bool repalce) {
+    // TODO
+    (void) string;
+    (void) match;
+    (void) repalce;
+    return 0;
+}

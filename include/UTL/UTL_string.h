@@ -127,4 +127,10 @@ extern int UTL_SplitStringAtAll(const UTL_String *string, const char *match, boo
 extern int UTL_TrimString(UTL_String *string, const char *match);
 
 
+/** group consecuitive occurences of any characters in @match into a single occurence.
+ *  if @replace is true, the single occurence will always be the first character in @match
+ *  returns the number of characters removed */
+extern int UTL_GroupString(UTL_String *string, const char *match, bool repalce);
+
+
 #endif // UTL_STRING_H
