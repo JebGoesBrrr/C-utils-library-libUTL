@@ -180,6 +180,46 @@ static bool testFindFirstOfAny(void) {
     return pass;
 }
 
+static bool testStringRemove(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("Hello World", -1);
+    UTL_RemoveFromString(s, 0, strlen("Hello"));
+    assertPass(strcmp(s->buf, " World") == 0);
+    assertPass(s->length == strlen(" World"));
+    UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", -1);
+    UTL_RemoveFromString(s, -5, strlen("Hello"));
+    assertPass(strcmp(s->buf, " World") == 0);
+    assertPass(s->length == strlen(" World"));
+    UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", -1);
+    UTL_RemoveFromString(s, 0, 5000);
+    assertPass(strcmp(s->buf, "") == 0);
+    assertPass(s->length == strlen(""));
+    UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", -1);
+    UTL_RemoveFromString(s, strlen("Hello "), strlen("World"));
+    assertPass(strcmp(s->buf, "Hello ") == 0);
+    assertPass(s->length == strlen("Hello "));
+    UTL_DestroyString(s);
+
+    s = UTL_CreateString("Hello World", -1);
+    UTL_RemoveFromString(s, 0, 1);
+    assertPass(strcmp(s->buf, "ello World") == 0);
+    assertPass(s->length == strlen("ello World"));
+    UTL_RemoveFromString(s, 1, 1);
+    assertPass(strcmp(s->buf, "elo World") == 0);
+    assertPass(s->length == strlen("elo World"));
+    UTL_DestroyString(s);
+
+    return pass;
+}
+
 static bool testStringRemoveAny(void) {
     bool pass = true;
     UTL_String *s;
@@ -208,6 +248,7 @@ static TestFuncEntry stringTests[] = {
     { "substringRev", &testStringSubstringRev },
     { "insert",       &testStringInsert },
     { "firstOfAny",   &testFindFirstOfAny },
+    { "remove",       &testStringRemove },
     { "removeAny",    &testStringRemoveAny },
     { NULL, NULL }
 };

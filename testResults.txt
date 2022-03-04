@@ -1,4 +1,4 @@
-Fri Mar  4 01:54:05 WEST 2022
+Fri Mar  4 01:59:56 WEST 2022
 
 ** run test class 'string'
   create .................................. PASS
@@ -7,8 +7,9 @@ Fri Mar  4 01:54:05 WEST 2022
   substringRev ............................ PASS
   insert .................................. PASS
   firstOfAny .............................. PASS
+  remove .................................. PASS
   removeAny ............................... FAILED
 
 
-6 passed
+7 passed
 1 failed
