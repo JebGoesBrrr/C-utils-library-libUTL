@@ -235,6 +235,20 @@ static bool testStringRemoveAny(void) {
     return pass;
 }
 
+static bool testStringTrim(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("xyzxyzHello Worldxyzxyz", -1);
+    int removed = UTL_TrimString(s, "xyz");
+    assertPass(strcmp(s->buf, "Hello World") == 0);
+    assertPass(s->length == strlen("Hello World"));
+    assertPass(removed == strlen("xyz") * 4);
+    s = UTL_DestroyString(s);
+
+    return pass;
+}
+
 static UTL_String* splitBuffer[16];
 static int splitBufferCount;
 static void splitCallback(void *aux, void *substr) {
@@ -295,6 +309,7 @@ static TestFuncEntry stringTests[] = {
     { "firstOfAny",   &testFindFirstOfAny },
     { "remove",       &testStringRemove },
     { "removeAny",    &testStringRemoveAny },
+    { "trim",         &testStringTrim },
     { "splitAny",     &testStringSplitAny },
     { NULL, NULL }
 };
