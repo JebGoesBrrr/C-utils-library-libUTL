@@ -337,9 +337,39 @@ int UTL_TrimString(UTL_String *string, const char *match) {
  *  if @replace is true, the single occurence will always be the first character in @match
  *  returns the number of characters removed */
 int UTL_GroupString(UTL_String *string, const char *match, bool repalce) {
-    // TODO
-    (void) string;
-    (void) match;
-    (void) repalce;
-    return 0;
+
+    if (string->length == 0 || !*match)
+        return 0;
+
+    int oldLength = string->length;
+
+    char *readPtr = string->buf;
+    char *writePtr = string->buf;
+    bool inGroup = false;
+
+    while (*readPtr) {
+        if (!inGroup) {
+            if (strchr(match, *readPtr)) {
+                inGroup = true;
+                *writePtr = repalce ? *match : *readPtr;
+            }
+            else {
+                *writePtr = *readPtr;
+            }
+            writePtr++;
+            readPtr++;
+        }
+        else {
+            if (!strchr(match, *readPtr)) {
+                inGroup = false;
+                *writePtr = *readPtr;
+                writePtr++;
+            }
+            readPtr++;
+        }
+    }
+
+    *writePtr = 0;
+    string->length = writePtr - string->buf;
+    return oldLength - string->length;
 }
