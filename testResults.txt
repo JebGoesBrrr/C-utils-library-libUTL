@@ -1,11 +1,12 @@
-Fri Mar  4 00:54:06 WEST 2022
+Fri Mar  4 01:04:17 WEST 2022
 
 ** run test class 'string'
   create .................................. PASS
   duplicate ............................... PASS
   substring ............................... PASS
   substringRev ............................ PASS
+  insert .................................. PASS
 
 
-4 passed
+5 passed
 0 failed

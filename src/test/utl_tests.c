@@ -123,6 +123,33 @@ static bool testStringSubstringRev(void) {
     return pass;
 }
 
+static bool testStringInsert(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("", -1);
+    s = UTL_AppendToString(s, "Hello", -1);
+    s = UTL_AppendToString(s, " World", 1);
+    s = UTL_AppendToString(s, "World", strlen("World"));
+    assertPass(strcmp(s->buf, "Hello World") == 0);
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("", -1);
+    s = UTL_PrependToString(s, "World", -1);
+    s = UTL_PrependToString(s, "    ", 1);
+    s = UTL_PrependToString(s, "Hello", strlen("Hello"));
+    assertPass(strcmp(s->buf, "Hello World") == 0);
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("", -1);
+    s = UTL_InsertToString(s, 0, "Hd", -1);
+    s = UTL_InsertToString(s, 1, "ello Worl", -1);
+    assertPass(strcmp(s->buf, "Hello World") == 0);
+    s = UTL_DestroyString(s);
+
+    return pass;
+}
+
 typedef struct {
     const char *label;
     bool (*func)(void);
@@ -134,6 +161,7 @@ static TestFuncEntry stringTests[] = {
     { "duplicate",    &testStringDuplicate },
     { "substring",    &testStringSubstring },
     { "substringRev", &testStringSubstringRev },
+    { "insert",       &testStringInsert },
     { NULL, NULL }
 };
 
