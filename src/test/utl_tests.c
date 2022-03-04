@@ -150,6 +150,21 @@ static bool testStringInsert(void) {
     return pass;
 }
 
+static bool testStringRemoveAny(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("aaaxaaayaaazaaaxyzaaa", -1);
+    UTL_RemoveAnyFromString(s, "xyz");
+    assertPass(strcmp(s->buf, "aaaaaaaaaaaaaaa") == 0);
+    assertPass(s->length == 15);
+    for (int i = 0; i < s->length; i++)
+        assertPass(s->buf[i] == 'a');
+    UTL_DestroyString(s);
+
+    return pass;
+}
+
 typedef struct {
     const char *label;
     bool (*func)(void);
@@ -162,6 +177,7 @@ static TestFuncEntry stringTests[] = {
     { "substring",    &testStringSubstring },
     { "substringRev", &testStringSubstringRev },
     { "insert",       &testStringInsert },
+    { "removeAny",    &testStringRemoveAny },
     { NULL, NULL }
 };
 
