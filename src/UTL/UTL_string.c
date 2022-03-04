@@ -171,7 +171,7 @@ UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int
 
 /** find the first index of any of the given characters in a string, at or after @offset
  *  returns a negative value if no match is found */
-int UTL_FindFirstOfAnyInString(UTL_String *string, const char *match, int offset) {
+int UTL_FindFirstOfAnyInString(const UTL_String *string, const char *match, int offset) {
     for (int i = offset < 0 ? 0 : offset; i < string->length; i++)
         if (strchr(match, string->buf[i]))
             return i;
@@ -181,7 +181,7 @@ int UTL_FindFirstOfAnyInString(UTL_String *string, const char *match, int offset
 
 /** find the first index of a full match of the given pattern in a string, at or after @offset
  *  returns a negative value if no match is found */
-int UTL_FindFirstOfAllInString(UTL_String *string, const char *match, int offset) {
+int UTL_FindFirstOfAllInString(const UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
     if (lenMatch == 0) return -1;
     for (int i = offset < 0 ? 0 : offset; i < string->length - lenMatch + 1; i++)
@@ -193,7 +193,7 @@ int UTL_FindFirstOfAllInString(UTL_String *string, const char *match, int offset
 
 /** find the last index of any of the given characters in a string, at or before @offset
  *  returns a negative value if no match is found */
-int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int offset) {
+int UTL_FindLastOfAnyInString(const UTL_String *string, const char *match, int offset) {
     for (int i = offset >= string->length ? string->length - 1 : offset; i >= 0; i--)
         if (strchr(match, string->buf[i]))
             return i;
@@ -203,7 +203,7 @@ int UTL_FindLastOfAnyInString(UTL_String *string, const char *match, int offset)
 
 /** find the last index of a full match of the given pattern in a string, at or before @offset
  *  returns a negative value if no match is found */
-int UTL_FindLastOfAllInString(UTL_String *string, const char *match, int offset) {
+int UTL_FindLastOfAllInString(const UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
     if (lenMatch == 0) return -1;
     for (int i = offset > string->length - lenMatch ? string->length - lenMatch : offset; i >= 0; i--)
