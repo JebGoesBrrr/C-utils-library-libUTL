@@ -316,3 +316,18 @@ int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool inclu
     (void) aux;
     return 0;
 }
+
+
+/** trim @string. cut off any occurence of any character in @match from the beginning the end
+ *  returns the number of characters removed */
+int UTL_TrimString(UTL_String *string, const char *match) {
+    int first = 0;
+    while (first < string->length && strchr(match, string->buf[first])) first++;
+
+    int last = string->length - 1;
+    while (last >= 0 && strchr(match, string->buf[last])) last--;
+
+    int oldLength = string->length;
+    UTL_RemoveFromStringRev(string, first + 1, last - first - 1);
+    return oldLength - string->length;
+}

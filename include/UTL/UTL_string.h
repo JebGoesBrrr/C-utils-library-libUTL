@@ -122,4 +122,9 @@ extern int UTL_SplitStringAtAny(const UTL_String *string, const char *match, boo
 extern int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux);
 
 
+/** trim @string. cut off any occurence of any character in @match from the beginning the end
+ *  returns the number of characters removed */
+extern int UTL_TrimString(UTL_String *string, const char *match);
+
+
 #endif // UTL_STRING_H
