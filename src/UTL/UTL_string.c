@@ -328,6 +328,6 @@ int UTL_TrimString(UTL_String *string, const char *match) {
     while (last >= 0 && strchr(match, string->buf[last])) last--;
 
     int oldLength = string->length;
-    UTL_RemoveFromStringRev(string, first + 1, last - first - 1);
+    UTL_RemoveFromStringRev(string, first, last - first + 1);
     return oldLength - string->length;
 }
