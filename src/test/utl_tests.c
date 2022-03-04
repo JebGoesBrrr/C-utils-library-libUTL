@@ -249,6 +249,27 @@ static bool testStringTrim(void) {
     return pass;
 }
 
+static bool testStringGroup(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("xyzHellozyxWorldyxz", -1);
+    int removed = UTL_GroupString(s, "xyz", false);
+    assertPass(removed == 2 * 3);
+    assertPass(s->length == strlen("HelloWorld") + 3);
+    assertPass(strcmp(s->buf, "xHellozWorldy"));
+    s = UTL_DestroyString(s);
+
+    s = UTL_CreateString("xyzHellozyxWorldyxz", -1);
+    removed = UTL_GroupString(s, "xyz", true);
+    assertPass(removed == 2 * 3);
+    assertPass(s->length == strlen("HelloWorld") + 3);
+    assertPass(strcmp(s->buf, "xHelloxWorldx"));
+    s = UTL_DestroyString(s);
+
+    return pass;
+}
+
 static UTL_String* splitBuffer[16];
 static int splitBufferCount;
 static void splitCallback(void *aux, void *substr) {
@@ -310,6 +331,7 @@ static TestFuncEntry stringTests[] = {
     { "remove",       &testStringRemove },
     { "removeAny",    &testStringRemoveAny },
     { "trim",         &testStringTrim },
+    { "group",        &testStringGroup },
     { "splitAny",     &testStringSplitAny },
     { NULL, NULL }
 };
