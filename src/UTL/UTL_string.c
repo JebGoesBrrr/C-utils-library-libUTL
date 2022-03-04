@@ -260,7 +260,7 @@ int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
     int i = UTL_FindFirstOfAnyInString(string, match, 0);
     while (i >= 0) {
         UTL_RemoveFromString(string, i, 1);
-        i = UTL_FindLastOfAnyInString(string, match, i);
+        i = UTL_FindFirstOfAnyInString(string, match, i);
     }
     return 0;
 }
