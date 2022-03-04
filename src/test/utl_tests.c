@@ -150,6 +150,36 @@ static bool testStringInsert(void) {
     return pass;
 }
 
+static bool testFindFirstOfAny(void) {
+    bool pass = true;
+    UTL_String *s;
+
+    s = UTL_CreateString("aaaxaaayaaazaaaxyzaaa", -1);
+    int i = UTL_FindFirstOfAnyInString(s, "xyz", 0);
+    assertPass(i == 3);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 1);
+    assertPass(i == 3);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 2);
+    assertPass(i == 3);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 3);
+    assertPass(i == 3);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 4);
+    assertPass(i == 7);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 8);
+    assertPass(i == 11);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 12);
+    assertPass(i == 15);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 16);
+    assertPass(i == 16);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 17);
+    assertPass(i == 17);
+    i = UTL_FindFirstOfAnyInString(s, "xyz", 18);
+    assertPass(i < 0);
+    UTL_DestroyString(s);
+
+    return pass;
+}
+
 static bool testStringRemoveAny(void) {
     bool pass = true;
     UTL_String *s;
@@ -177,6 +207,7 @@ static TestFuncEntry stringTests[] = {
     { "substring",    &testStringSubstring },
     { "substringRev", &testStringSubstringRev },
     { "insert",       &testStringInsert },
+    { "firstOfAny",   &testFindFirstOfAny },
     { "removeAny",    &testStringRemoveAny },
     { NULL, NULL }
 };
