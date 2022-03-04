@@ -281,13 +281,25 @@ int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
  *  if @includeEmpty is false, empty substrings are ignored
  *  returnes the number of created substrings */
 int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
-    // TODO
-    (void) string;
-    (void) match;
-    (void) includeEmpty;
-    (void) cb;
-    (void) aux;
-    return 0;
+
+    int numSubstrings = 0;
+
+    int lastMatch = -1;
+    while (true) {
+        int newMatch = UTL_FindFirstOfAnyInString(string, match, lastMatch+1);
+        int subLength = newMatch >= 0 ? newMatch - (lastMatch+1) : string->length - (lastMatch+1);
+
+        if (subLength > 0 || includeEmpty) {
+            UTL_String *s = UTL_Substring(string, lastMatch+1, subLength);
+            if (cb) cb(aux, s);
+            numSubstrings++;
+        }
+
+        lastMatch = newMatch;
+        if (newMatch < 0) break;
+    }
+
+    return numSubstrings;
 }
 
 
