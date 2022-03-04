@@ -235,6 +235,51 @@ static bool testStringRemoveAny(void) {
     return pass;
 }
 
+static UTL_String* splitBuffer[16];
+static int splitBufferCount;
+static void splitCallback(void *aux, void *substr) {
+    (void)aux;
+    splitBuffer[splitBufferCount++] = substr;
+}
+
+static bool testStringSplitAny(void) {
+    bool pass = true;
+    UTL_String *s;
+    int num;
+
+    splitBufferCount = 0;
+    s = UTL_CreateString("YaaaXaaXaXaYX", -1);
+    num = UTL_SplitStringAtAny(s, "XY", false, &splitCallback, NULL);
+    assertPass(num == 4);
+    assertPass(splitBufferCount == 4);
+    assertPass(stricmp(splitBuffer[0]->buf, "aaa") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "aa") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "a") == 0);
+    assertPass(stricmp(splitBuffer[3]->buf, "a") == 0);
+    for (int i = 0; i < 4; i++)
+        splitBuffer[i] = UTL_DestroyString(splitBuffer[i]);
+    splitBufferCount = 0;
+
+
+    num = UTL_SplitStringAtAny(s, "XY", true, &splitCallback, NULL);
+    assertPass(num == 7);
+    assertPass(splitBufferCount == 7);
+    assertPass(stricmp(splitBuffer[0]->buf, "") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "aaa") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "aa") == 0);
+    assertPass(stricmp(splitBuffer[3]->buf, "a") == 0);
+    assertPass(stricmp(splitBuffer[4]->buf, "a") == 0);
+    assertPass(stricmp(splitBuffer[5]->buf, "") == 0);
+    assertPass(stricmp(splitBuffer[6]->buf, "") == 0);
+    for (int i = 0; i < 7; i++)
+        splitBuffer[i] = UTL_DestroyString(splitBuffer[i]);
+    splitBufferCount = 0;
+
+    UTL_DestroyString(s);
+
+    return pass;
+}
+
 typedef struct {
     const char *label;
     bool (*func)(void);
@@ -250,6 +295,7 @@ static TestFuncEntry stringTests[] = {
     { "firstOfAny",   &testFindFirstOfAny },
     { "remove",       &testStringRemove },
     { "removeAny",    &testStringRemoveAny },
+    { "splitAny",     &testStringSplitAny },
     { NULL, NULL }
 };
 

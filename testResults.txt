@@ -1,4 +1,4 @@
-Fri Mar  4 02:03:05 WEST 2022
+Fri Mar  4 04:21:30 WEST 2022
 
 ** run test class 'string'
   create .................................. PASS
@@ -9,7 +9,8 @@ Fri Mar  4 02:03:05 WEST 2022
   firstOfAny .............................. PASS
   remove .................................. PASS
   removeAny ............................... PASS
+  splitAny ................................ PASS
 
 
-8 passed
+9 passed
 0 failed
