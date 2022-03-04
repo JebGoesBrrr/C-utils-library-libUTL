@@ -257,14 +257,14 @@ static bool testStringGroup(void) {
     int removed = UTL_GroupString(s, "xyz", false);
     assertPass(removed == 2 * 3);
     assertPass(s->length == strlen("HelloWorld") + 3);
-    assertPass(strcmp(s->buf, "xHellozWorldy"));
+    assertPass(strcmp(s->buf, "xHellozWorldy") == 0);
     s = UTL_DestroyString(s);
 
     s = UTL_CreateString("xyzHellozyxWorldyxz", -1);
     removed = UTL_GroupString(s, "xyz", true);
     assertPass(removed == 2 * 3);
     assertPass(s->length == strlen("HelloWorld") + 3);
-    assertPass(strcmp(s->buf, "xHelloxWorldx"));
+    assertPass(strcmp(s->buf, "xHelloxWorldx") == 0);
     s = UTL_DestroyString(s);
 
     return pass;
