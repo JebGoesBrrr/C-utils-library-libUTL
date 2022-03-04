@@ -257,9 +257,11 @@ void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
 /** remove all occurences of any of the characters in @match from @string
  *  returnes the number of characters that where removed */
 int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
-    // TODO
-    (void) string;
-    (void) match;
+    int i = UTL_FindFirstOfAnyInString(string, match, 0);
+    while (i >= 0) {
+        UTL_RemoveFromString(string, i, 1);
+        i = UTL_FindLastOfAnyInString(string, match, i);
+    }
     return 0;
 }
 
