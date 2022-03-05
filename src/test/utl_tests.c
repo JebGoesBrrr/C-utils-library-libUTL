@@ -315,6 +315,40 @@ static bool testStringSplitAny(void) {
     return pass;
 }
 
+static bool testStringSplitAtAll(void) {
+    bool pass = true;
+    UTL_String *s;
+    int num;
+
+    splitBufferCount = 0;
+    s = UTL_CreateString("YaaaXYaaXaXaYXYXXY", -1);
+    num = UTL_SplitStringAtAll(s, "XY", false, &splitCallback, NULL);
+    assertPass(num == 3);
+    assertPass(splitBufferCount == 3);
+    assertPass(stricmp(splitBuffer[0]->buf, "Yaaa") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "aaXaXaY") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "X") == 0);
+    for (int i = 0; i < 3; i++)
+        splitBuffer[i] = UTL_DestroyString(splitBuffer[i]);
+    splitBufferCount = 0;
+
+
+    num = UTL_SplitStringAtAll(s, "XY", true, &splitCallback, NULL);
+    assertPass(num == 4);
+    assertPass(splitBufferCount == 4);
+    assertPass(stricmp(splitBuffer[0]->buf, "Yaaa") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "aaXaXaY") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "X") == 0);
+    assertPass(stricmp(splitBuffer[3]->buf, "") == 0);
+    for (int i = 0; i < 4; i++)
+        splitBuffer[i] = UTL_DestroyString(splitBuffer[i]);
+    splitBufferCount = 0;
+
+    UTL_DestroyString(s);
+
+    return pass;
+}
+
 typedef struct {
     const char *label;
     bool (*func)(void);
