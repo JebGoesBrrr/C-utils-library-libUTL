@@ -315,7 +315,7 @@ static bool testStringSplitAny(void) {
     return pass;
 }
 
-static bool testStringSplitAtAll(void) {
+static bool testStringSplitAll(void) {
     bool pass = true;
     UTL_String *s;
     int num;
@@ -367,6 +367,7 @@ static TestFuncEntry stringTests[] = {
     { "trim",         &testStringTrim },
     { "group",        &testStringGroup },
     { "splitAny",     &testStringSplitAny },
+    { "splitAll",     &testStringSplitAll },
     { NULL, NULL }
 };
 
