@@ -20,15 +20,26 @@ typedef struct {
 
 <div name="stringcreate">
 
-`UTL_String* UTL_StringCreate(const char *cstr, int length)`
+### `UTL_String* UTL_StringCreate(const char *cstr, int length)`
 
-todo
+Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
+If `cstr` is `null` the new string will be empty.
+If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
+Otherwise `cstr` does not need to be null-terminated and `length` is used.
+The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
+
+Examples:
+```c
+UTL_String *s1 = UTL_StringCreate(null, -1);          // create empty
+UTL_String *s2 = UTL_StringCreate("Hello World", -1); // create with "Hello World"
+UTL_String *s3 = UTL_StringCreate("Hello World", 5);  // create with "Hello"
+```
 
 </div>
 
 <div name="stringduplicate">
 
-`UTL_String* UTL_StringDuplicate(const UTL_String *string)`
+### `UTL_String* UTL_StringDuplicate(const UTL_String *string)`
 
 todo
 
@@ -36,7 +47,7 @@ todo
 
 <div name="stringsubstring">
 
-`UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)`
+### `UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)`
 
 todo
 
