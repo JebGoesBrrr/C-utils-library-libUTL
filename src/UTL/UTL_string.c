@@ -31,7 +31,7 @@ static int UTL_ComputeNewStringCapacity(int minLength, int currentCapacity) {
  *  leaves the new string empty if @from is null
  *  will compute length if @length is negative
  *  the returned string needs to be destroyed with UTL_DestroyString() */
-UTL_String* UTL_CreateString(const char *cstr, int length) {
+UTL_String* UTL_StringCreate(const char *cstr, int length) {
 
     // compute how many characters need to be copied on initialisation
     if (cstr == NULL) length = 0; // nothing to copy
@@ -58,49 +58,49 @@ UTL_String* UTL_CreateString(const char *cstr, int length) {
 
 /** create a duplicate of a given string
  *  the returned string needs to be destroyed with UTL_DestroyString() */
-UTL_String* UTL_DuplicateString(const UTL_String *string) {
-    return UTL_CreateString(string->buf, string->length);
+UTL_String* UTL_StringDuplicate(const UTL_String *string) {
+    return UTL_StringCreate(string->buf, string->length);
 }
 
 
 /** create a substring of a given string
  *  the new string contains the contents starting with @first and has length @length
  *  the returned string needs to be destroyed with UTL_DestroyString() */
-UTL_String* UTL_Substring(const UTL_String *string, int first, int length) {
+UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length) {
     
     // snap @first to boundaries
     if (first < 0) first = 0;
-    if (first >= string->length) return UTL_CreateString(NULL, -1);
+    if (first >= string->length) return UTL_StringCreate(NULL, -1);
 
     // snap @length to boundaries
     int maxLength = string->length - first;
     if (length > maxLength) length = maxLength;
 
-    return UTL_CreateString(string->buf + first, length); 
+    return UTL_StringCreate(string->buf + first, length); 
 }
 
 
 /** create a substring of a given string
  *  the new string contains all but the contents starting with @first of length @length
  *  the returned string needs to be destroyed with UTL_DestroyString() */
-UTL_String* UTL_SubstringRev(const UTL_String *string, int first, int length) {
+UTL_String* UTL_StringSubstringRev(const UTL_String *string, int first, int length) {
     
     // snap @first to boundaries
     if (first < 0) first = 0;
-    if (first >= string->length) return UTL_CreateString(NULL, -1);
+    if (first >= string->length) return UTL_StringCreate(NULL, -1);
 
     // snap @length to boundaries
     int maxLength = string->length - first;
     if (length > maxLength) length = maxLength;
     
-    UTL_String *substring = UTL_CreateString(string->buf, first);
-    substring = UTL_AppendToString(substring, string->buf + first + length, -1);
+    UTL_String *substring = UTL_StringCreate(string->buf, first);
+    substring = UTL_StringAppend(substring, string->buf + first + length, -1);
     return substring;
 }
 
 
 /** free memory of a given UTL_String. returns null */
-UTL_String* UTL_DestroyString(UTL_String *string) {
+UTL_String* UTL_StringDestroy(UTL_String *string) {
     free(string);
     return NULL;
 }
@@ -108,7 +108,7 @@ UTL_String* UTL_DestroyString(UTL_String *string) {
 
 /** make sure the given UTL_String has enough capacity for at least @minLength
  *  returns the new string (possible relocation) */
-UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
+UTL_String* UTL_StringReserve(UTL_String *string, int minLength) {
 
     // do nothing if there is enough space
     if (minLength < string->capacity)
@@ -125,8 +125,8 @@ UTL_String* UTL_ReserveString(UTL_String *string, int minLength) {
  *  does nothing if the given string is NULL
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length) {
-    return UTL_InsertToString(string, string->length, cstr, length); // insert behind last position
+UTL_String* UTL_StringAppend(UTL_String *string, const char *cstr, int length) {
+    return UTL_StringInsert(string, string->length, cstr, length); // insert behind last position
 }
 
 
@@ -134,8 +134,8 @@ UTL_String* UTL_AppendToString(UTL_String *string, const char *cstr, int length)
  *  does nothing if the given string is NULL
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length) {
-    return UTL_InsertToString(string, 0, cstr, length); // insert before first position
+UTL_String* UTL_StringPrepend(UTL_String *string, const char *cstr, int length) {
+    return UTL_StringInsert(string, 0, cstr, length); // insert before first position
 }
 
 
@@ -143,7 +143,7 @@ UTL_String* UTL_PrependToString(UTL_String *string, const char *cstr, int length
  *  does nothing if the given string is NULL
  *  will compute length if @length is negative
  *  returns the new string (possible relocation) */
-UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int length) {
+UTL_String* UTL_StringInsert(UTL_String *string, int at, const char *cstr, int length) {
 
     // snap insert position to boundaries
     if (at < 0) at = 0;
@@ -156,7 +156,7 @@ UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int
 
     // compute and reserve new capacity
     int newLength = string->length + length;
-    string = UTL_ReserveString(string, newLength);
+    string = UTL_StringReserve(string, newLength);
 
     // make a gap for the new content
     memmove(string->buf + at + length, string->buf + at, string->length + 1 - at);
@@ -171,7 +171,7 @@ UTL_String* UTL_InsertToString(UTL_String *string, int at, const char *cstr, int
 
 /** find the first index of any of the given characters in a string, at or after @offset
  *  returns a negative value if no match is found */
-int UTL_FindFirstOfAnyInString(const UTL_String *string, const char *match, int offset) {
+int UTL_StringFindFirstOfAny(const UTL_String *string, const char *match, int offset) {
     for (int i = offset < 0 ? 0 : offset; i < string->length; i++)
         if (strchr(match, string->buf[i]))
             return i;
@@ -181,7 +181,7 @@ int UTL_FindFirstOfAnyInString(const UTL_String *string, const char *match, int 
 
 /** find the first index of a full match of the given pattern in a string, at or after @offset
  *  returns a negative value if no match is found */
-int UTL_FindFirstOfAllInString(const UTL_String *string, const char *match, int offset) {
+int UTL_StringFindFirstOfAll(const UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
     if (lenMatch == 0) return -1;
     for (int i = offset < 0 ? 0 : offset; i < string->length - lenMatch + 1; i++)
@@ -193,7 +193,7 @@ int UTL_FindFirstOfAllInString(const UTL_String *string, const char *match, int 
 
 /** find the last index of any of the given characters in a string, at or before @offset
  *  returns a negative value if no match is found */
-int UTL_FindLastOfAnyInString(const UTL_String *string, const char *match, int offset) {
+int UTL_StringFindLastOfAny(const UTL_String *string, const char *match, int offset) {
     for (int i = offset >= string->length ? string->length - 1 : offset; i >= 0; i--)
         if (strchr(match, string->buf[i]))
             return i;
@@ -203,7 +203,7 @@ int UTL_FindLastOfAnyInString(const UTL_String *string, const char *match, int o
 
 /** find the last index of a full match of the given pattern in a string, at or before @offset
  *  returns a negative value if no match is found */
-int UTL_FindLastOfAllInString(const UTL_String *string, const char *match, int offset) {
+int UTL_StringFindLastOfAll(const UTL_String *string, const char *match, int offset) {
     int lenMatch = strlen(match);
     if (lenMatch == 0) return -1;
     for (int i = offset > string->length - lenMatch ? string->length - lenMatch : offset; i >= 0; i--)
@@ -215,7 +215,7 @@ int UTL_FindLastOfAllInString(const UTL_String *string, const char *match, int o
 
 /** remove parts of a string
  *  remove everything starting at @first and of length @length */
-void UTL_RemoveFromString(UTL_String *string, int first, int length) {
+void UTL_StringRemoveAt(UTL_String *string, int first, int length) {
 
     // snap @first to boundaries
     if (first < 0) first = 0;
@@ -232,7 +232,7 @@ void UTL_RemoveFromString(UTL_String *string, int first, int length) {
 
 /** remove parts of a string
  *  remove everything except content starting at @first and of length @length */
-void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
+void UTL_StringRemoveAtRev(UTL_String *string, int first, int length) {
     
     // snap @first to boundaries
     if (first < 0) first = 0;
@@ -256,11 +256,11 @@ void UTL_RemoveFromStringRev(UTL_String *string, int first, int length) {
 
 /** remove all occurences of any of the characters in @match from @string
  *  returnes the number of characters that where removed */
-int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
-    int i = UTL_FindFirstOfAnyInString(string, match, 0);
+int UTL_StringRemoveAny(UTL_String *string, const char *match) {
+    int i = UTL_StringFindFirstOfAny(string, match, 0);
     while (i >= 0) {
-        UTL_RemoveFromString(string, i, 1);
-        i = UTL_FindFirstOfAnyInString(string, match, i);
+        UTL_StringRemoveAt(string, i, 1);
+        i = UTL_StringFindFirstOfAny(string, match, i);
     }
     return 0;
 }
@@ -268,7 +268,7 @@ int UTL_RemoveAnyFromString(UTL_String *string, const char *match) {
 
 /** remove all occurences of full matches of the characters in @match from @string
  *  returnes the number of characters that where removed */
-int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
+int UTL_StringRemoveAll(UTL_String *string, const char *match) {
     // TODO
     (void) string;
     (void) match;
@@ -280,17 +280,17 @@ int UTL_RemoveAllFromString(UTL_String *string, const char *match) {
  *  if non null, the callback @cb will be called on each created substring: cb(aux, substr);
  *  if @includeEmpty is false, empty substrings are ignored
  *  returnes the number of created substrings */
-int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
+int UTL_StringSplitOnAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
 
     int numSubstrings = 0;
 
     int lastMatch = -1;
     while (true) {
-        int newMatch = UTL_FindFirstOfAnyInString(string, match, lastMatch+1);
+        int newMatch = UTL_StringFindFirstOfAny(string, match, lastMatch+1);
         int subLength = newMatch >= 0 ? newMatch - (lastMatch+1) : string->length - (lastMatch+1);
 
         if (subLength > 0 || includeEmpty) {
-            UTL_String *s = UTL_Substring(string, lastMatch+1, subLength);
+            UTL_String *s = UTL_StringSubstring(string, lastMatch+1, subLength);
             if (cb) cb(aux, s);
             numSubstrings++;
         }
@@ -307,7 +307,7 @@ int UTL_SplitStringAtAny(const UTL_String *string, const char *match, bool inclu
  *  if non null, the callback @cb will be called on each created substring: cb(aux, substr);
  *  if @includeEmpty is false, empty substrings are ignored
  *  returnes the number of created substrings */
-int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
+int UTL_StringSplitOnAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
     // TODO
     (void) string;
     (void) match;
@@ -320,7 +320,7 @@ int UTL_SplitStringAtAll(const UTL_String *string, const char *match, bool inclu
 
 /** trim @string. cut off any occurence of any character in @match from the beginning the end
  *  returns the number of characters removed */
-int UTL_TrimString(UTL_String *string, const char *match) {
+int UTL_StringTrim(UTL_String *string, const char *match) {
     int first = 0;
     while (first < string->length && strchr(match, string->buf[first])) first++;
 
@@ -328,7 +328,7 @@ int UTL_TrimString(UTL_String *string, const char *match) {
     while (last >= 0 && strchr(match, string->buf[last])) last--;
 
     int oldLength = string->length;
-    UTL_RemoveFromStringRev(string, first, last - first + 1);
+    UTL_StringRemoveAtRev(string, first, last - first + 1);
     return oldLength - string->length;
 }
 
@@ -336,7 +336,7 @@ int UTL_TrimString(UTL_String *string, const char *match) {
 /** group consecuitive occurences of any characters in @match into a single occurence.
  *  if @replace is true, the single occurence will always be the first character in @match
  *  returns the number of characters removed */
-int UTL_GroupString(UTL_String *string, const char *match, bool repalce) {
+int UTL_StringGroup(UTL_String *string, const char *match, bool repalce) {
 
     if (string->length == 0 || !*match)
         return 0;
