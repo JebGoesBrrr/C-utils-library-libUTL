@@ -32,6 +32,14 @@ typedef struct {
 extern void UTL_DestroyList(UTL_List *list);
 
 
+/** get object at given index from a list */
+extern void* UTL_ListGet(UTL_List *list, int at);
+
+
+/** set object at given index in a list */
+extern void UTL_ListSet(UTL_List *list, int at, void *obj);
+
+
 /** append a new object to the back of the list */
 extern void UTL_AppendToList(UTL_List *list, void *obj);
 
