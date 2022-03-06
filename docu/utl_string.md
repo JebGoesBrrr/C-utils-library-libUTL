@@ -22,34 +22,48 @@ typedef struct {
 
 ### `UTL_String* UTL_StringCreate(const char *cstr, int length)`
 
->Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
-If `cstr` is `null` the new string will be empty.
-If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
+Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
+If `cstr` is `null` the new string will be empty. If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
 Otherwise `cstr` does not need to be null-terminated and `length` is used.
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
 
-Examples:
+&nbsp;&nbsp;Examples:
 ```c
 UTL_String *s1 = UTL_StringCreate(null, -1);          // create empty
 UTL_String *s2 = UTL_StringCreate("Hello World", -1); // create with "Hello World"
 UTL_String *s3 = UTL_StringCreate("Hello World", 5);  // create with "Hello"
 ```
 
-<div name="stringduplicate">
+---
+
+<div name="stringduplicate"></div>
 
 ### `UTL_String* UTL_StringDuplicate(const UTL_String *string)`
 
-todo
+Creates and returns a new `UTL_String` that will have the same contents as the given `string`.
+The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
 
-</div>
+&nbsp;&nbsp;Examples:
+```c
+UTL_String *s1 = UTL_StringCreate("Hello World", -1);
+UTL_String *s2 = UTL_StringDuplicate(s1);
+```
 
-<div name="stringsubstring">
+---
+
+<div name="stringsubstring"></div>
 
 ### `UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)`
 
-todo
+Creates and returns a new `UTL_String` that will contain a sub-string of the given `string` (starting with the character at index `first` and having length `length`).
 
-</div>
+
+&nbsp;&nbsp;Examples:
+```c
+UTL_String *s1 = UTL_StringCreate("Hello World", -1);
+UTL_String *s2 = UTL_StringSubstring(s1, 0, 5); // "Hello"
+UTL_String *s3 = UTL_StringSubstring(s1, 6, 5); // "World"
+```
 
 ---
 
