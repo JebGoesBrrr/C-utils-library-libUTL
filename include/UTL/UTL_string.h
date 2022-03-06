@@ -42,6 +42,10 @@ extern UTL_String* UTL_StringSubstringRev(const UTL_String *string, int first, i
 extern UTL_String* UTL_StringDestroy(UTL_String *string);
 
 
+/** clear the contents of a string, but keep the string object allocated */
+extern void UTL_StringClear(UTL_String *string);
+
+
 /** make sure the given UTL_String has enough capacity for at least @minLength
  *  returns the new string (possible relocation) */
 extern UTL_String* UTL_StringReserve(UTL_String *string, int minLength);
