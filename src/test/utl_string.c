@@ -1,6 +1,6 @@
+#include "testing.h"
+#include "utl_string.h"
 #include "UTL/UTL.h"
-
-#define assertPass(cond) pass = pass && (cond)
 
 
 static bool testStringCreate(void) {
@@ -30,6 +30,7 @@ static bool testStringCreate(void) {
     return pass;
 }
 
+
 static bool testStringDuplicate(void) {
     bool pass = true;
     UTL_String *s1, *s2;
@@ -52,6 +53,7 @@ static bool testStringDuplicate(void) {
 
     return pass;
 }
+
 
 static bool testStringSubstring(void) {
     bool pass = true;
@@ -88,6 +90,7 @@ static bool testStringSubstring(void) {
     return pass;
 }
 
+
 static bool testStringSubstringRev(void) {
     bool pass = true;
     UTL_String *s1, *s2;
@@ -123,6 +126,7 @@ static bool testStringSubstringRev(void) {
     return pass;
 }
 
+
 static bool testStringInsert(void) {
     bool pass = true;
     UTL_String *s;
@@ -149,6 +153,7 @@ static bool testStringInsert(void) {
 
     return pass;
 }
+
 
 static bool testFindFirstOfAny(void) {
     bool pass = true;
@@ -179,6 +184,7 @@ static bool testFindFirstOfAny(void) {
 
     return pass;
 }
+
 
 static bool testStringRemove(void) {
     bool pass = true;
@@ -220,6 +226,7 @@ static bool testStringRemove(void) {
     return pass;
 }
 
+
 static bool testStringRemoveAny(void) {
     bool pass = true;
     UTL_String *s;
@@ -235,6 +242,7 @@ static bool testStringRemoveAny(void) {
     return pass;
 }
 
+
 static bool testStringTrim(void) {
     bool pass = true;
     UTL_String *s;
@@ -248,6 +256,7 @@ static bool testStringTrim(void) {
 
     return pass;
 }
+
 
 static bool testStringGroup(void) {
     bool pass = true;
@@ -269,6 +278,7 @@ static bool testStringGroup(void) {
 
     return pass;
 }
+
 
 static UTL_String* splitBuffer[16];
 static int splitBufferCount;
@@ -349,13 +359,11 @@ static bool testStringSplitAll(void) {
     return pass;
 }
 
-typedef struct {
-    const char *label;
-    bool (*func)(void);
-} TestFuncEntry;
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-static TestFuncEntry stringTests[] = {
+TestFuncEntry UTL_StringTests[] = {
     { "create",       &testStringCreate },
     { "duplicate",    &testStringDuplicate },
     { "substring",    &testStringSubstring },
@@ -370,44 +378,3 @@ static TestFuncEntry stringTests[] = {
     { "splitAll",     &testStringSplitAll },
     { NULL, NULL }
 };
-
-
-typedef struct {
-    const char *label;
-    TestFuncEntry *funcs;
-} TestClassEntry;
-
-
-static TestClassEntry allTests[] = {
-    { "string", (TestFuncEntry*) &stringTests},
-    { NULL, NULL }
-};
-
-
-int main(int argc, char **argv) {
-    (void)argc;
-    (void)argv;
-
-    int numPassed = 0;
-    int numFailed = 0;
-
-    for (int i = 0; allTests[i].label; i++) {
-        printf("** run test class '%s'\n", allTests[i].label);
-
-        for (int j = 0; allTests[i].funcs[j].label; j++) {
-
-            printf("  %s ", allTests[i].funcs[j].label);
-            int padding = 40 - strlen(allTests[i].funcs[j].label);
-            while (padding--) printf(".");
-
-            bool result = allTests[i].funcs[j].func();
-            if (result) numPassed++;
-            else        numFailed++;
-            printf("%s\n", result ? " PASS" : " FAILED");
-        }
-    }
-
-    printf("\n\n%i passed\n%i failed\n", numPassed, numFailed);
-
-    return 0;
-}
