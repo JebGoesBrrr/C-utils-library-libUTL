@@ -1,8 +1,10 @@
 #include "utl_string.h"
+#include "utl_list.h"
 
 
 static TestClassEntry allTests[] = {
-    { "UTL_String", (TestFuncEntry*) &UTL_StringTests},
+    { "UTL_String", (TestFuncEntry*) &UTL_StringTests },
+    { "UTL_List",   (TestFuncEntry*) &UTL_ListTests },
     { NULL, NULL }
 };
 
@@ -28,9 +30,12 @@ int main(int argc, char **argv) {
             else        numFailed++;
             printf("%s\n", result ? " PASS" : " FAILED");
         }
+
+        printf("\n");
     }
 
-    printf("\n\n%i passed\n%i failed\n", numPassed, numFailed);
+    printf("\n------------------------------------------\n");
+    printf(" % 3i passed\n % 3i failed\n", numPassed, numFailed);
 
     return 0;
 }

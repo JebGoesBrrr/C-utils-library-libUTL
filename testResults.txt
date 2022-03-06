@@ -1,4 +1,4 @@
-Sun Mar  6 23:50:44 WEST 2022
+Sun Mar  6 23:56:43 WEST 2022
 
 ** run test class 'UTL_String'
   create .................................. PASS
@@ -14,6 +14,9 @@ Sun Mar  6 23:50:44 WEST 2022
   splitAny ................................ PASS
   splitAll ................................ 336  FAILED
 
+** run test class 'UTL_List'
 
-11 passed
-1 failed
+
+------------------------------------------
+  11 passed
+   1 failed
