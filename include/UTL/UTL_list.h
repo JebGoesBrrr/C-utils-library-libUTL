@@ -36,12 +36,37 @@ extern void UTL_DestroyList(UTL_List *list);
 extern void* UTL_ListGet(UTL_List *list, int at);
 
 
+/** get the last objet from a list */
+extern void* UTL_ListGetBack(UTL_List *list);
+
+
+/** get the first object from a list */
+extern void* UTL_ListGetFront(UTL_List *list);
+
+
 /** set object at given index in a list */
 extern void UTL_ListSet(UTL_List *list, int at, void *obj);
 
 
 /** append a new object to the back of the list */
-extern void UTL_AppendToList(UTL_List *list, void *obj);
+extern void UTL_ListPushBack(UTL_List *list, void *obj);
+
+
+/** prepend a new object to the front of the list */
+extern void UTL_ListPushFront(UTL_List *list, void *obj);
+
+
+/** append a new object to the back of the list */
+extern void UTL_ListInsert(UTL_List *list, int at, void *obj);
+
+
+extern void UTL_ListPopBack(UTL_List *list);
+
+
+extern void UTL_ListPopFront(UTL_List *list);
+
+
+extern void UTL_ListRemoveAt(UTL_List *list, int at);
 
 
 // list constructors //////////////////////////////////////////////////////////////////////////////////////////////////
