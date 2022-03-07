@@ -39,7 +39,7 @@ typedef struct {
 
 <a name="stringcreate"></a>
 
-<h3><b>UTL_String* UTL_StringCreate(const char *cstr, int length)</b></h3>
+### UTL_String\* UTL_StringCreate(const char \*cstr, int length)
 
 Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
 If `cstr` is `null` the new string will be empty. If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
@@ -58,7 +58,7 @@ UTL_String *s3 = UTL_StringCreate("Hello World", 5);  // create with "Hello"
 
 <a name="stringduplicate"></a>
 
-### UTL_String* UTL_StringDuplicate(const UTL_String *string)
+### UTL_String\* UTL_StringDuplicate(const UTL_String \*string)
 
 Creates and returns a new `UTL_String` that will have the same contents as the given `string`.
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
@@ -74,7 +74,7 @@ UTL_String *s2 = UTL_StringDuplicate(s1);
 
 <a name="stringsubstring"></a>
 
-### UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)
+### UTL_String\* UTL_StringSubstring(const UTL_String \*string, int first, int length)
 
 Creates and returns a new `UTL_String` that will contain a sub-string of the given `string` (starting with the character at index `first` and having length `length`).
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
@@ -91,7 +91,7 @@ UTL_String *s3 = UTL_StringSubstring(s1, 6, 5); // "World"
 
 <a name="stringsubstringrev"></a>
 
-### UTL_String* UTL_StringSubstringRev(const UTL_String *string, int first, int length)
+### UTL_String\* UTL_StringSubstringRev(const UTL_String \*string, int first, int length)
 
 Creates and returns a new `UTL_String` that will contain a sub-string of the given `string` (excluding everything starting with the character at index `first` and having length `length`).
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
@@ -108,7 +108,7 @@ UTL_String *s3 = UTL_StringSubstringRev(s1, 5, 6); // "Hello"
 
 <a name="stringdestroy"></a>
 
-### UTL_String* UTL_StringDestroy(UTL_String *string)
+### UTL_String\* UTL_StringDestroy(UTL_String \*string)
 
 Destroy a string and free it's memory. Returns `null`.
 
@@ -123,7 +123,7 @@ s = UTL_StringDestroy(s);                            // frees the string (s is n
 
 <a name="stringclear"></a>
 
-### void UTL_StringClear(UTL_String *string)
+### void UTL_StringClear(UTL_String \*string)
 
 Clear a string's content to be the empty string `""`. The string object itself stays allocated and must still be destroyes with `UTL_StringDestroy()`.
 
@@ -138,7 +138,7 @@ UTL_StringClear(s);                                  // s->buf == ""
 
 <a name="stringreserve"></a>
 
-### UTL_String* UTL_StringReserve(UTL_String *string, int minLength)
+### UTL_String\* UTL_StringReserve(UTL_String \*string, int minLength)
 
 TODO
 
@@ -152,7 +152,7 @@ todo
 
 <a name="stringappend"></a>
 
-### UTL_String* UTL_StringAppend(UTL_String *string, const char *cstr, int length)
+### UTL_String\* UTL_StringAppend(UTL_String \*string, const char \*cstr, int length)
 
 Append the content of the given c-string to `string`.
 If `cstr` is `null`, the strings is unchanged.
@@ -172,7 +172,7 @@ s = UTL_StringAppend(s, "World", -1); // s->buf == "Hello World"
 
 <a name="stringprepend"></a>
 
-### UTL_String* UTL_StringPrepend(UTL_String *string, const char *cstr, int length)
+### UTL_String\* UTL_StringPrepend(UTL_String \*string, const char \*cstr, int length)
 
 Prepend the content of the given c-string to `string`.
 If `cstr` is `null`, the strings is unchanged.
@@ -192,7 +192,7 @@ s = UTL_StringPrepend(s, "Hello", -1); // s->buf == "Hello World"
 
 <a name="stringinsert"></a>
 
-### UTL_String* UTL_StringInsert(UTL_String *string, int at, const char *cstr, int length)
+### UTL_String\* UTL_StringInsert(UTL_String \*string, int at, const char \*cstr, int length)
 
 TODO
 
@@ -206,7 +206,7 @@ todo
 
 <a name="stringfindfirstofany"></a>
 
-### int UTL_StringFindFirstOfAny(const UTL_String *string, const char *match, int offset)
+### int UTL_StringFindFirstOfAny(const UTL_String \*string, const char \*match, int offset)
 
 TODO
 
@@ -220,7 +220,7 @@ todo
 
 <a name="stringfindfirstofall"></a>
 
-### int UTL_StringFindFirstOfAll(const UTL_String *string, const char *match, int offset)
+### int UTL_StringFindFirstOfAll(const UTL_String \*string, const char \*match, int offset)
 
 TODO
 
@@ -234,7 +234,7 @@ todo
 
 <a name="stringfindlastofany"></a>
 
-### int UTL_StringFindLastOfAny(const UTL_String *string, const char *match, int offset)
+### int UTL_StringFindLastOfAny(const UTL_String \*string, const char \*match, int offset)
 
 TODO
 
@@ -248,7 +248,7 @@ todo
 
 <a name="stringfindlastofall"></a>
 
-### int UTL_StringFindLastOfAll(const UTL_String *string, const char *match, int offset)
+### int UTL_StringFindLastOfAll(const UTL_String \*string, const char \*match, int offset)
 
 TODO
 
@@ -262,7 +262,7 @@ todo
 
 <a name="stringremoveat"></a>
 
-### void UTL_StringRemoveAt(UTL_String *string, int first, int length)
+### void UTL_StringRemoveAt(UTL_String \*string, int first, int length)
 
 TODO
 
@@ -276,7 +276,7 @@ todo
 
 <a name="stringremoveatrev"></a>
 
-### void UTL_StringRemoveAtRev(UTL_String *string, int first, int length)
+### void UTL_StringRemoveAtRev(UTL_String \*string, int first, int length)
 
 TODO
 
@@ -290,7 +290,7 @@ todo
 
 <a name="stringremoveany"></a>
 
-### int UTL_StringRemoveAny(UTL_String *string, const char *match)
+### int UTL_StringRemoveAny(UTL_String \*string, const char \*match)
 
 TODO
 
@@ -304,7 +304,7 @@ todo
 
 <a name="stringremoveall"></a>
 
-### int UTL_StringRemoveAll(UTL_String *string, const char *match)
+### int UTL_StringRemoveAll(UTL_String \*string, const char \*match)
 
 TODO
 
@@ -318,7 +318,7 @@ todo
 
 <a name="stringsplitonany"></a>
 
-### int UTL_StringSplitOnAny(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux)
+### int UTL_StringSplitOnAny(const UTL_String \*string, const char \*match, bool includeEmpty, void (\*cb)(void\*,void\*), void \*aux)
 
 TODO
 
@@ -332,7 +332,7 @@ todo
 
 <a name="stringsplitonall"></a>
 
-### int UTL_StringSplitOnAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux)
+### int UTL_StringSplitOnAll(const UTL_String \*string, const char \*match, bool includeEmpty, void (\*cb)(void\*,void\*), void \*aux)
 
 TODO
 
@@ -346,7 +346,7 @@ todo
 
 <a name="stringtrim"></a>
 
-### int UTL_StringTrim(UTL_String *string, const char *match)
+### int UTL_StringTrim(UTL_String \*string, const char \*match)
 
 TODO
 
@@ -360,7 +360,7 @@ todo
 
 <a name="stringgroup"></a>
 
-### int UTL_StringGroup(UTL_String *string, const char *match, bool repalce)
+### int UTL_StringGroup(UTL_String \*string, const char \*match, bool repalce)
 
 TODO
 
