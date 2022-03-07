@@ -1,5 +1,5 @@
-# 2D Game Engine (SDL2 & C)
+# libUTL
 
-A simple 2D game engine, written in C, on top of SDL2
+A utils library with strings, generic contaienrs and config files, written in C.
 
 [Documentation](./doc/readme.md)
