@@ -21,7 +21,7 @@ typedef struct {
 
 <a name="stringcreate"></a>
 
-## `UTL_String* UTL_StringCreate(const char *cstr, int length)`
+### UTL_String* UTL_StringCreate(const char *cstr, int length)
 
 Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
 If `cstr` is `null` the new string will be empty. If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
@@ -37,9 +37,9 @@ UTL_String *s3 = UTL_StringCreate("Hello World", 5);  // create with "Hello"
 
 ---
 
-<div name="stringduplicate"></div>
+<a name="stringduplicate"></a>
 
-### `UTL_String* UTL_StringDuplicate(const UTL_String *string)`
+### UTL_String* UTL_StringDuplicate(const UTL_String *string)
 
 Creates and returns a new `UTL_String` that will have the same contents as the given `string`.
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
@@ -52,9 +52,9 @@ UTL_String *s2 = UTL_StringDuplicate(s1);
 
 ---
 
-<div name="stringsubstring"></div>
+<a name="stringsubstring"></a>
 
-### `UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)`
+### UTL_String* UTL_StringSubstring(const UTL_String *string, int first, int length)
 
 Creates and returns a new `UTL_String` that will contain a sub-string of the given `string` (starting with the character at index `first` and having length `length`).
 
@@ -68,9 +68,9 @@ UTL_String *s3 = UTL_StringSubstring(s1, 6, 5); // "World"
 
 ---
 
-<div name="stringsubstringrev"></div>
+<a name="stringsubstringrev"></a>
 
-### `UTL_String* UTL_StringSubstringRev(const UTL_String *string, int first, int length)`
+### UTL_String* UTL_StringSubstringRev(const UTL_String *string, int first, int length)
 
 Creates and returns a new `UTL_String` that will contain a sub-string of the given `string` (excluding everything starting with the character at index `first` and having length `length`).
 The returned string objects needs to be destroyed with `UTL_StringDestroy()`.
