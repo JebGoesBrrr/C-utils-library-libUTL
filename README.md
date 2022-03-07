@@ -2,4 +2,4 @@
 
 A utils library with strings, generic contaienrs and config files, written in C.
 
-[Documentation](./doc/utl.md)
+[Documentation](./docs/index.md)
