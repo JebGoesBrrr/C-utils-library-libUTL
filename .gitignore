@@ -1,5 +1,4 @@
-mingw64
 lib
-include/SDL2
 build
+tmp
 .vscode

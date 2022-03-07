@@ -1,23 +1,46 @@
-.phony: clean
+.phony: clean mkdirs
 
-CC 				= gcc
-CLFAGS 			= -std=c99 -Wall -Wextra -O2 -I include
-CFLAGS_FOR_LIB 	= --shared -fpic
+CC 		= gcc
+CFLAGS	= -std=c99 -Wall -Wextra -O2 -I include
 
-UTL_SRC  = $(wildcard src/UTL/*.c)
-TEST_SRC = $(wildcard src/test/*.c)
+SRC_LIB  	= $(wildcard src/*.c)
+SRC_TEST 	= $(wildcard test/*.c)
+SRC_EXAMPLE = $(wildcard examples/*.c)
 
-all: UTL TEST
+OBJ_LIB 	= $(addsuffix .o,$(addprefix tmp/,$(notdir $(basename $(SRC_LIB)))))
+OBJ_TEST 	= $(addsuffix .o,$(addprefix tmp/test/,$(notdir $(basename $(SRC_TEST)))))
+EXE_EXAMPLE	= $(addsuffix .exe,$(addprefix build/example_,$(notdir $(basename $(SRC_EXAMPLE)))))
 
-UTL: build/libUTL.dll
+all: lib test examples
 
-build/libUTL.dll:
-	$(CC) $(CLFAGS) $(CFLAGS_FOR_LIB) $(UTL_SRC) -o $@
+lib: mkdirs build/libUTL.dll
 
-TEST: UTL build/test.exe
+test: mkdirs build/test.exe
 
-build/test.exe:
-	$(CC) $(CLFAGS) $(TEST_SRC) -o $@ -L build -lUTL
+examples: mkdirs $(EXE_EXAMPLE)
+
+build/libUTL.dll: $(OBJ_LIB)
+	$(CC) --shared $^ -o $@
+
+build/test.exe: $(OBJ_TEST)
+	$(CC) $^ -o $@ -L build -lUTL
+
+tmp/%.o : src/%.c
+	$(CC) $(CFLAGS) -c -fpic $< -o $@
+
+build/example_%.exe : examples/%.c
+	$(CC) $(CFLAGS) $< -o $@ -L build -lUTL
+
+tmp/test/%.o : test/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f build/*
+	rm -f tmp/*.o
+	rm -f tmp/test/*.o
+
+mkdirs:
+	mkdir -p build
+	mkdir -p tmp
+	mkdir -p tmp/examples
+	mkdir -p tmp/test
