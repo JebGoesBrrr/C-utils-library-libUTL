@@ -84,5 +84,4 @@ UTL_String *s3 = UTL_StringSubstringRev(s1, 5, 6); // "Hello"
 
 ---
 
-[back to main documentation](readme.md) <br>
-[back to utl documentation](utl.md)
+[back](index.md)
