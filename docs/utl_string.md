@@ -19,9 +19,9 @@ typedef struct {
 
 ---
 
-<div name="stringcreate"></div>
+<a name="stringcreate"></a>
 
-### `UTL_String* UTL_StringCreate(const char *cstr, int length)`
+## `UTL_String* UTL_StringCreate(const char *cstr, int length)`
 
 Creates and returns a new `UTL_String` and initializes it with the given C-string `cstr`.
 If `cstr` is `null` the new string will be empty. If `length` is negative, this function will compute `cstr`'s length (and hence expects it to be null-terminated).
