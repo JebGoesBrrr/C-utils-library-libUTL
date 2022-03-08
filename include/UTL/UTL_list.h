@@ -25,6 +25,14 @@ typedef struct {
 } UTL_List;
 
 
+/** abstract base type for all list iterators */
+typedef struct {
+    UTL_List *list;     // the list into which this iterator is pointing
+    void     *auxData;  // for internal use -- don't use
+    int       index;    // index into the list
+} UTL_ListIter;
+
+
 // abstract list functions ////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -60,14 +68,71 @@ extern void UTL_ListPushFront(UTL_List *list, void *obj);
 extern void UTL_ListInsert(UTL_List *list, int at, void *obj);
 
 
+/** remove the last object from a list */
 extern void UTL_ListPopBack(UTL_List *list);
 
 
+/** remove the first object from a list */
 extern void UTL_ListPopFront(UTL_List *list);
 
 
-extern void UTL_ListRemoveAt(UTL_List *list, int at);
+/** remove the object at index @at from the list */
+extern void UTL_ListRemove(UTL_List *list, int at);
 
+
+/** find the first index of the given object, at or after @offset */
+extern int UTL_ListFindFirst(UTL_List *list, void *obj, int offset);
+
+
+/** find the last index of the given object, at or before @offset */
+extern int UTL_ListFindLast(UTL_List *list, void *obj, int offset);
+
+
+/** */
+extern bool UTL_ListContains(UTL_List *list, void *obj);
+
+
+/** sort a list */
+extern void UTL_ListSort(UTL_List *list);
+
+
+/** return true if the given list is sorted */
+extern bool UTL_ListIsSorted(UTL_List *list);
+
+
+/** get an iterator to the beginning of the list */
+extern UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list);
+
+
+/** get an iterator to the end of the list */
+extern UTL_ListIter UTL_ListGetIteratorBack(UTL_List *list);
+
+
+// list iterators /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+extern bool UTL_ListIterHasNext(UTL_ListIter *iter);
+
+
+extern bool UTL_ListIterHasPrev(UTL_ListIter *iter);
+
+
+extern void UTL_ListIterNext(UTL_ListIter *iter);
+
+
+extern void UTL_ListIterPrev(UTL_ListIter *iter);
+
+
+extern void* UTL_ListIterGet(UTL_ListIter *iter);
+
+
+extern void UTL_ListIterSet(UTL_ListIter *iter, void *obj);
+
+
+extern void UTL_ListIterInsert(UTL_ListIter *iter, void *obj);
+
+
+extern void UTL_ListIterRemove(UTL_ListIter *iter);
 
 // list constructors //////////////////////////////////////////////////////////////////////////////////////////////////
 
