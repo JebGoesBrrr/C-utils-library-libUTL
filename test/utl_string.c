@@ -331,26 +331,28 @@ static bool testStringSplitAll(void) {
     int num;
 
     splitBufferCount = 0;
-    s = UTL_StringCreate("YaaaXYaaXaXaYXYXXY", -1);
-    num = UTL_StringSplitOnAll(s, "XY", false, &splitCallback, NULL);
-    assertPass(num == 3);
-    assertPass(splitBufferCount == 3);
-    assertPass(stricmp(splitBuffer[0]->buf, "Yaaa") == 0);
-    assertPass(stricmp(splitBuffer[1]->buf, "aaXaXaY") == 0);
-    assertPass(stricmp(splitBuffer[2]->buf, "X") == 0);
-    for (int i = 0; i < 3; i++)
+    s = UTL_StringCreate("YXYXYXaaaXYXaaXaXaXYXYaXXYX", -1);
+    num = UTL_StringSplitOnAll(s, "XYX", false, &splitCallback, NULL);
+    assertPass(num == 4);
+    assertPass(splitBufferCount == 4);
+    assertPass(stricmp(splitBuffer[0]->buf, "Y") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "aaa") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "aaXaXa") == 0);
+    assertPass(stricmp(splitBuffer[3]->buf, "YaX") == 0);
+    for (int i = 0; i < 4; i++)
         splitBuffer[i] = UTL_StringDestroy(splitBuffer[i]);
     splitBufferCount = 0;
 
-
-    num = UTL_StringSplitOnAll(s, "XY", true, &splitCallback, NULL);
-    assertPass(num == 4);
-    assertPass(splitBufferCount == 4);
-    assertPass(stricmp(splitBuffer[0]->buf, "Yaaa") == 0);
-    assertPass(stricmp(splitBuffer[1]->buf, "aaXaXaY") == 0);
-    assertPass(stricmp(splitBuffer[2]->buf, "X") == 0);
-    assertPass(stricmp(splitBuffer[3]->buf, "") == 0);
-    for (int i = 0; i < 4; i++)
+    num = UTL_StringSplitOnAll(s, "XYX", true, &splitCallback, NULL);
+    assertPass(num == 6);
+    assertPass(splitBufferCount == 6);
+    assertPass(stricmp(splitBuffer[0]->buf, "Y") == 0);
+    assertPass(stricmp(splitBuffer[1]->buf, "") == 0);
+    assertPass(stricmp(splitBuffer[2]->buf, "aaa") == 0);
+    assertPass(stricmp(splitBuffer[3]->buf, "aaXaXa") == 0);
+    assertPass(stricmp(splitBuffer[4]->buf, "YaX") == 0);
+    assertPass(stricmp(splitBuffer[5]->buf, "") == 0);
+    for (int i = 0; i < 6; i++)
         splitBuffer[i] = UTL_StringDestroy(splitBuffer[i]);
     splitBufferCount = 0;
 
