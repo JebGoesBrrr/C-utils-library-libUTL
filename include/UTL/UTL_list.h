@@ -119,6 +119,9 @@ extern bool UTL_ListIterHasNext(UTL_ListIter *iter);
 extern bool UTL_ListIterHasPrev(UTL_ListIter *iter);
 
 
+extern bool UTL_ListIterIsValid(UTL_ListIter *iter);
+
+
 extern void UTL_ListIterNext(UTL_ListIter *iter);
 
 

@@ -136,6 +136,45 @@ static void UTL_LinkedListPushBack(UTL_LinkedList *list, void *obj) {
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+static UTL_ListIter UTL_ArrayListGetIteratorFront(UTL_ArrayList *list) {
+    return (UTL_ListIter) {
+        .list    = (UTL_List*) list,
+        .auxData = NULL,
+        .index   = 0
+    };
+}
+
+
+static UTL_ListIter UTL_ArrayListGetIteratorBack(UTL_ArrayList *list) {
+    return (UTL_ListIter) {
+        .list    = (UTL_List*) list,
+        .auxData = NULL,
+        .index   = list->count - 1
+    };
+}
+
+
+static UTL_ListIter UTL_LinkedListGetIteratorFront(UTL_LinkedList *list) {
+    return (UTL_ListIter) {
+        .list    = (UTL_List*) list,
+        .auxData = list->sentinel.next,
+        .index   = 0
+    };
+
+}
+
+
+static UTL_ListIter UTL_LinkedListGetIteratorBack(UTL_LinkedList *list) {
+    return (UTL_ListIter) {
+        .list    = (UTL_List*) list,
+        .auxData = list->sentinel.prev,
+        .index   = list->count - 1
+    };
+}
+
 
 // abstract list functions ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -183,6 +222,133 @@ void UTL_ListPushBack(UTL_List *list, void *obj) {
     }
 }
 
+
+/** get an iterator to the beginning of the list */
+UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list) {
+    switch (list->listType) {
+        case UTL_ARRAY_LIST:
+            return UTL_ArrayListGetIteratorFront((UTL_ArrayList*) list);
+        case UTL_LINKED_LIST:
+            return UTL_LinkedListGetIteratorFront((UTL_LinkedList*) list);
+        default:
+            return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
+    }
+}
+
+
+/** get an iterator to the end of the list */
+UTL_ListIter UTL_ListGetIteratorBack(UTL_List *list) {
+    switch (list->listType) {
+        case UTL_ARRAY_LIST:
+            return UTL_ArrayListGetIteratorBack((UTL_ArrayList*) list);
+        case UTL_LINKED_LIST:
+            return UTL_LinkedListGetIteratorBack((UTL_LinkedList*) list);
+        default:
+            return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
+    }
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+bool UTL_ListIterHasNext(UTL_ListIter *iter) {
+    if (!iter->list) return false;
+
+    return iter->index < iter->list->count - 1;
+}
+
+
+bool UTL_ListIterHasPrev(UTL_ListIter *iter) {
+    if (!iter->list) return false;
+
+    return iter->index > 0;
+}
+
+
+bool UTL_ListIterIsValid(UTL_ListIter *iter) {
+    return iter->list != NULL && iter->index >= 0 && iter->index < iter->list->count;
+}
+
+
+void UTL_ListIterNext(UTL_ListIter *iter) {
+    if (!iter->list) return;
+
+    if (UTL_ListIterIsValid(iter)) {
+        iter->index++;
+
+        switch (iter->list->listType) {
+            case UTL_ARRAY_LIST:
+                break;
+            case UTL_LINKED_LIST:
+                iter->auxData = ((UTL_LinkedListNode*)(iter->auxData))->next;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+void UTL_ListIterPrev(UTL_ListIter *iter) {
+    if (!iter->list) return;
+
+    if (UTL_ListIterIsValid(iter)) {
+        iter->index--;
+
+        switch (iter->list->listType) {
+            case UTL_ARRAY_LIST:
+                break;
+            case UTL_LINKED_LIST:
+                iter->auxData = ((UTL_LinkedListNode*)(iter->auxData))->prev;
+                break;
+            default:
+                break;
+        }
+    }
+}
+
+
+void* UTL_ListIterGet(UTL_ListIter *iter) {
+    if (!iter->list) return NULL;
+
+    uint8_t *pos;
+
+    switch (iter->list->listType) {
+        case UTL_ARRAY_LIST:
+            pos = ((UTL_ArrayList*)(iter->list))->data + UTL_ListDataSize(iter->list) * iter->index;
+            break;
+        case UTL_LINKED_LIST:
+            pos = ((UTL_LinkedListNode*)iter->auxData)->obj;
+            break;
+        default:
+            pos = NULL;
+            break;
+    }
+
+    return UTL_ListObjDst(iter->list, pos);
+}
+
+
+void UTL_ListIterSet(UTL_ListIter *iter, void *obj) {
+    if (!iter->list) return;
+
+    uint8_t *pos;
+
+    switch (iter->list->listType) {
+        case UTL_ARRAY_LIST:
+            pos = ((UTL_ArrayList*)(iter->list))->data + UTL_ListDataSize(iter->list) * iter->index;
+            break;
+        case UTL_LINKED_LIST:
+            pos = ((UTL_LinkedListNode*)iter->auxData)->obj;
+            break;
+        default:
+            pos = NULL;
+            break;
+    }
+
+    memcpy(pos, UTL_ListObjSrc(iter->list, obj), UTL_ListDataSize(iter->list));
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
