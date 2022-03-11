@@ -318,7 +318,6 @@ int UTL_StringSplitOnAll(const UTL_String *string, const char *match, bool inclu
     int numSubstrings = 0;
     int lastMatch = -1;
 
-    // for now same functionality as SplitOnAny, but with full match, ignores overlapping matches
     while (true) {
         int newMatch = UTL_StringFindFirstOfAll(string, match, lastMatch + 1);
         int subLength = newMatch >= 0 ? newMatch - (lastMatch + 1) : string->length - (lastMatch + 1);
@@ -329,7 +328,7 @@ int UTL_StringSplitOnAll(const UTL_String *string, const char *match, bool inclu
             numSubstrings++;
         }
 
-        lastMatch = newMatch;
+        lastMatch = newMatch + strlen(match) - 1; // last character of full match
         if (newMatch < 0) break;
     }
 
