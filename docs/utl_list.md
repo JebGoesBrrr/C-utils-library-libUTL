@@ -1,5 +1,9 @@
 # UTL_List
 
+* [Description](#description)
+* [Examples](#examples)
+* [Functions](#functions)
+
 ## Description
 
 todo
@@ -9,10 +13,8 @@ todo
 ```c
 /** different types of lists  */
 typedef enum {
-    UTL_ARRAY_LIST,     // list of objects, backed by an array
-    UTL_LINKED_LIST,    // list of objects, backed by linked nodes
-    UTL_ARRAY_LISTP,    // list of pointers, backed by an array
-    UTL_LINKED_LISTP    // list of pointers, backed by linked nodes
+    UTL_ARRAY_LIST,  // list backed by an array
+    UTL_LINKED_LIST, // list backed by linked nodes
 } UTL_ListType;
 ```
 
@@ -21,9 +23,10 @@ todo
 ```c
 /** abstract base type for all lists */
 typedef struct {
-    const UTL_ListType         listType;    // type of this list (array vs linked, objects vs pointers)
-    const UTL_TypeInfo * const dataType;    // type of the contained data
-    const int                  count;       // number of objects currently in the list
+    const UTL_ListType  listType;  // array or linked
+    const UTL_TypeInfo *dataType;  // type of the contained data
+    const bool          byRef;     // objects stored by pointer or by value?
+    const int           count;     // number of objects currently in the list
 } UTL_List;
 ```
 
@@ -38,18 +41,41 @@ typedef struct {
 } UTL_ListIter;
 ```
 
+## Examples
+
+```c
+// create list of int, stored by value, backed by array
+UTL_List *list = UTL_ListCreate(UTL_ARRAY_LIST,  &UTL_TypeInfoInt, false);
+
+// fill list
+for (int i = 0; i < 16; i++)
+    UTL_ListPushBack(list, &i);
+
+// print list using iterator
+printf("%2i [", list->count);
+
+UTL_ListIter iter = UTL_ListGetIteratorFront(list);
+while (UTL_ListIterIsValid(&iter)) {
+    int i = *(int*) UTL_ListIterGet(&iter);
+    printf("%2i ", i);
+    UTL_ListIterNext(&iter);
+}
+
+printf("]\n");
+
+// clean up
+UTL_ListDestroy(list);
+```
+
 ## Functions
 
-### Constructors
+### Constructor and Destructor
 
-* [UTL_CreateArrayList](todo)
-* [UTL_CreateArrayListP](todo)
-* [UTL_CreateLinkedList](todo)
-* [UTL_CreateLinkedListP](todo)
+* [UTL_ListCreate](todo)
+* [UTL_ListDestroy](todo)
 
 ### List functions
 
-* [UTL_DestroyList](todo)
 * [UTL_ListGet](todo)
 * [UTL_ListGetBack](todo)
 * [UTL_ListGetFront](todo)
@@ -65,11 +91,11 @@ typedef struct {
 * [UTL_ListContains](todo)
 * [UTL_ListSort](todo)
 * [UTL_ListIsSorted](todo)
-* [UTL_ListGetIteratorFront](todo)
-* [UTL_ListGetIteratorBack](todo)
 
 ### Iterator functions
 
+* [UTL_ListGetIteratorFront](todo)
+* [UTL_ListGetIteratorBack](todo)
 * [UTL_ListIterHasNext](todo)
 * [UTL_ListIterHasPrev](todo)
 * [UTL_ListIterNext](todo)
@@ -83,7 +109,7 @@ typedef struct {
 
 <a name=""></a>
 
-### UTL_List\* UTL_CreateArrayList(UTL_TypeInfo \*dataType)
+### UTL_List\* UTL_ListCreate(UTL_ListType listType, const UTL_TypeInfo \*dataType, bool byRef)
 
 todo
 
@@ -97,49 +123,7 @@ todo
 
 <a name=""></a>
 
-### UTL_List\* UTL_CreateArrayListP(UTL_TypeInfo \*dataType)
-
-todo
-
-&nbsp;&nbsp;Examples:
-
-```c
-todo
-```
-
----
-
-<a name=""></a>
-
-### UTL_List\* UTL_CreateLinkedList(UTL_TypeInfo \*dataType)
-
-todo
-
-&nbsp;&nbsp;Examples:
-
-```c
-todo
-```
-
----
-
-<a name=""></a>
-
-### UTL_List\* UTL_CreateLinkedListP(UTL_TypeInfo \*dataType)
-
-todo
-
-&nbsp;&nbsp;Examples:
-
-```c
-todo
-```
-
----
-
-<a name=""></a>
-
-### void UTL_DestroyList(UTL_List *list)
+### void UTL_ListDestroy(UTL_List *list)
 
 todo
 
