@@ -57,9 +57,9 @@ _STATIC_ASSERT(offsetof(UTL_List, count) == offsetof(UTL_LinkedList, count));
 
 #define UTL_ListDataSize(list) (list->byRef ? sizeof(void*) : list->dataType->size)
 
-#define UTL_ListObjSrc(list, obj) (list->byRef ? &(obj) : (obj))
+#define UTL_ListObj2Pos(list, obj) (list->byRef ? &(obj) : (obj))
 
-#define UTL_ListObjDst(list, obj) (list->byRef ? *((void**)(obj)) : (void*)(obj))
+#define UTL_ListPos2Obj(list, obj) (list->byRef ? *((void**)(obj)) : (void*)(obj))
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +90,7 @@ void* UTL_ArrayListGet(UTL_ArrayList *list, int at) {
     if (at >= list->count) return NULL;
 
     uint8_t *pos = list->data + UTL_ListDataSize(list) * at;
-    return UTL_ListObjDst(list, pos);
+    return UTL_ListPos2Obj(list, pos);
 }
 
 
@@ -101,7 +101,7 @@ void* UTL_LinkedListGet(UTL_LinkedList *list, int at) {
     UTL_LinkedListNode *node = list->sentinel.next;
     while (at--) node = node->next;
 
-    return UTL_ListObjDst(list, node->obj);
+    return UTL_ListPos2Obj(list, node->obj);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -115,7 +115,7 @@ static void UTL_ArrayListPushBack(UTL_ArrayList *list, void *obj) {
     }
 
     uint8_t *pos = list->data + UTL_ListDataSize(list) * list->count;
-    memcpy(pos, UTL_ListObjSrc(list, obj), UTL_ListDataSize(list));
+    memcpy(pos, UTL_ListObj2Pos(list, obj), UTL_ListDataSize(list));
     
     list->count++;
 }
@@ -124,7 +124,7 @@ static void UTL_ArrayListPushBack(UTL_ArrayList *list, void *obj) {
 static void UTL_LinkedListPushBack(UTL_LinkedList *list, void *obj) {
 
     UTL_LinkedListNode *node = malloc(sizeof(UTL_LinkedListNode) + UTL_ListDataSize(list));
-    memcpy(node->obj, UTL_ListObjSrc(list, obj), UTL_ListDataSize(list));
+    memcpy(node->obj, UTL_ListObj2Pos(list, obj), UTL_ListDataSize(list));
 
     node->next = &list->sentinel;
     node->prev = list->sentinel.prev;
@@ -326,7 +326,7 @@ void* UTL_ListIterGet(UTL_ListIter *iter) {
             break;
     }
 
-    return UTL_ListObjDst(iter->list, pos);
+    return UTL_ListPos2Obj(iter->list, pos);
 }
 
 
@@ -347,7 +347,7 @@ void UTL_ListIterSet(UTL_ListIter *iter, void *obj) {
             break;
     }
 
-    memcpy(pos, UTL_ListObjSrc(iter->list, obj), UTL_ListDataSize(iter->list));
+    memcpy(pos, UTL_ListObj2Pos(iter->list, obj), UTL_ListDataSize(iter->list));
 }
 
 
@@ -366,7 +366,7 @@ static UTL_List* UTL_ArrayListCreate(const UTL_TypeInfo *dataType, bool byRef) {
     list->capacity = UTL_ARRAY_LIST_INITIAL_CAPACITY;
     list->count = 0;
 
-    list->data = malloc((byRef ? sizeof(void*) : dataType->size) * list->capacity);
+    list->data = malloc(UTL_ListDataSize(list) * list->capacity);
 
     return (UTL_List*) list;
 }
