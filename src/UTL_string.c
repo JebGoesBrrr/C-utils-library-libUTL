@@ -316,19 +316,20 @@ int UTL_StringSplitOnAny(const UTL_String *string, const char *match, bool inclu
  *  returns the number of created substrings */
 int UTL_StringSplitOnAll(const UTL_String *string, const char *match, bool includeEmpty, void (*cb)(void*,void*), void *aux) {
     int numSubstrings = 0;
-    int lastMatch = -1;
+    int matchLength = strlen(match);
+    int lastMatch = -matchLength; // exploit, that negative offsets are shifted to begin of string
 
     while (true) {
         int newMatch = UTL_StringFindFirstOfAll(string, match, lastMatch + 1);
-        int subLength = newMatch >= 0 ? newMatch - (lastMatch + 1) : string->length - (lastMatch + 1);
+        int subLength = newMatch > 0 ? ((newMatch - lastMatch) > matchLength ?newMatch - (lastMatch + matchLength) : 0) : string->length - (lastMatch + matchLength);
 
         if (subLength > 0 || includeEmpty) {
-            UTL_String *s = UTL_StringSubstring(string, lastMatch + 1, subLength);
+            UTL_String *s = UTL_StringSubstring(string, lastMatch + matchLength, subLength);
             if (cb) cb(aux, s);
             numSubstrings++;
         }
 
-        lastMatch = newMatch + strlen(match) - 1; // last character of full match
+        lastMatch = newMatch;
         if (newMatch < 0) break;
     }
 
