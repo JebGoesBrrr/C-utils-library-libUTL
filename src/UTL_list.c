@@ -104,6 +104,31 @@ void* UTL_LinkedListGet(UTL_LinkedList *list, int at) {
     return UTL_ListPos2Obj(list, node->obj);
 }
 
+void* UTL_ArrayListGetBack(UTL_ArrayList *list) {
+    if (list->count == 0) return NULL;
+
+    uint8_t *pos = list->data + UTL_ListDataSize(list) * list->count - 1;
+    return UTL_ListPos2Obj(list, pos);
+}
+
+void* UTL_LinkedListGetBack(UTL_LinkedList *list) {
+    if (list->count == 0) return NULL;
+
+    return UTL_ListPos2Obj(list, list->sentinel.prev->obj);
+}
+
+void* UTL_ArrayListGetFront(UTL_ArrayList *list) {
+    if (list->count == 0) return NULL;
+
+    return UTL_ListPos2Obj(list, list->data);
+}
+
+void* UTL_LinkedListGetFront(UTL_LinkedList *list) {
+    if (list->count == 0) return NULL;
+
+    return UTL_ListPos2Obj(list, list->sentinel.next->obj);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -202,6 +227,31 @@ void* UTL_ListGet(UTL_List *list, int at) {
             return UTL_ArrayListGet((UTL_ArrayList*) list, at);
         case UTL_LINKED_LIST:
             return UTL_LinkedListGet((UTL_LinkedList*) list, at);
+        default:
+            return NULL;
+    }
+}
+
+/** get the last objet from a list */
+void* UTL_ListGetBack(UTL_List *list) {
+    switch (list->listType) {
+        case UTL_ARRAY_LIST:
+            return UTL_ArrayListGetBack((UTL_ArrayList*) list);
+        case UTL_LINKED_LIST:
+            return UTL_LinkedListGetBack((UTL_LinkedList*) list);
+        default:
+            return NULL;
+    }
+}
+
+
+/** get the first object from a list */
+void* UTL_ListGetFront(UTL_List *list) {
+    switch (list->listType) {
+        case UTL_ARRAY_LIST:
+            return UTL_ArrayListGetFront((UTL_ArrayList*) list);
+        case UTL_LINKED_LIST:
+            return UTL_LinkedListGetFront((UTL_LinkedList*) list);
         default:
             return NULL;
     }
