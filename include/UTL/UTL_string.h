@@ -136,5 +136,22 @@ extern int UTL_StringTrim(UTL_String *string, const char *match);
  *  returns the number of characters removed */
 extern int UTL_StringGroup(UTL_String *string, const char *match, bool repalce);
 
+/** concatenates a string to another
+ *  will compute length if @length is negative
+ *  returns the new string (possible relocation)
+ *  returns the string that results from concatenating @string2 to @string1 */
+extern UTL_String* UTL_StringConcatenate(UTL_String *string1, UTL_String *string2);
+
+/** reverses a given string @string */
+extern void UTL_StringReverse(UTL_String *string);
+
+/** converts a given string @string to lowercase */
+extern void UTL_StringLower(UTL_String *string);
+
+/** converts a given string @string to uppercase */
+extern void UTL_StringUpper(UTL_String *string);
+
+/** replaces every occurence of a found @match in @string */
+extern void UTL_StringFindAndReplace(UTL_String *string, const char *match);
 
 #endif // UTL_STRING_H

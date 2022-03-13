@@ -392,3 +392,39 @@ int UTL_StringGroup(UTL_String *string, const char *match, bool repalce) {
     string->length = writePtr - string->buf;
     return oldLength - string->length;
 }
+
+/** concatenates a string to another
+ *  will compute length if @length is negative
+ *  returns the new string (possible relocation)
+ *  returns the string that results from concatenating @string2 to @string1 */
+UTL_String* UTL_StringConcatenate(UTL_String *string1, UTL_String *string2) {
+    // TODO
+    (void) string1;
+    (void) string2;
+    return (UTL_String*) NULL;
+}
+
+/** reverses a given string @string */
+void UTL_StringReverse(UTL_String *string){
+    // TODO
+    (void) string;
+}
+
+/** converts a given string @string to uppercase */
+void UTL_StringLower(UTL_String *string){
+    // TODO
+    (void) string;
+}
+
+/** converts a given string @string to uppercase */
+void UTL_StringUpper(UTL_String *string){
+    // TODO
+    (void) string;
+}
+
+/** replaces every occurence of a found @match in @string */
+void UTL_StringFindAndReplace(UTL_String *string, const char *match){
+    // TODO
+    (void) string;
+    (void) match;
+}
