@@ -398,10 +398,7 @@ int UTL_StringGroup(UTL_String *string, const char *match, bool repalce) {
  *  returns the new string (possible relocation)
  *  returns the string that results from concatenating @string2 to @string1 */
 UTL_String* UTL_StringConcatenate(UTL_String *string1, UTL_String *string2) {
-    // TODO
-    (void) string1;
-    (void) string2;
-    return (UTL_String*) NULL;
+    return UTL_StringAppend(string1, string2->buf, string1->length + string2->length);
 }
 
 /** reverses a given string @string */
