@@ -408,15 +408,29 @@ void UTL_StringReverse(UTL_String *string){
 }
 
 /** converts a given string @string to uppercase */
-void UTL_StringLower(UTL_String *string){
+void UTL_StringToLower(UTL_String *string){
     // TODO
     (void) string;
 }
 
 /** converts a given string @string to uppercase */
-void UTL_StringUpper(UTL_String *string){
+void UTL_StringToUpper(UTL_String *string){
     // TODO
     (void) string;
+}
+
+/** check if a given string @string is lowercase */
+bool UTL_StringIsLower(const UTL_String *string) {
+    // TODO
+    (void) string;
+    return false;
+}
+
+/** check if a given string @string is uppercase */
+bool UTL_StringIsUpper(const UTL_String *string) {
+    // TODO
+    (void) string;
+    return false;
 }
 
 /** replaces every occurence of a found @match in @string */

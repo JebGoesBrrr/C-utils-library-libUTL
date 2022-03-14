@@ -146,10 +146,16 @@ extern UTL_String* UTL_StringConcatenate(UTL_String *string1, UTL_String *string
 extern void UTL_StringReverse(UTL_String *string);
 
 /** converts a given string @string to lowercase */
-extern void UTL_StringLower(UTL_String *string);
+extern void UTL_StringToLower(UTL_String *string);
 
 /** converts a given string @string to uppercase */
-extern void UTL_StringUpper(UTL_String *string);
+extern void UTL_StringToUpper(UTL_String *string);
+
+/** check if a given string @string is lowercase */
+extern bool UTL_StringIsLower(const UTL_String *string);
+
+/** check if a given string @string is uppercase */
+extern bool UTL_StringIsUpper(const UTL_String *string);
 
 /** replaces every occurence of a found @match in @string */
 extern void UTL_StringFindAndReplace(UTL_String *string, const char *match);
