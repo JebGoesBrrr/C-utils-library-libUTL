@@ -72,6 +72,12 @@ extern UTL_String* UTL_StringPrepend(UTL_String *string, const char *cstr, int l
 extern UTL_String* UTL_StringInsert(UTL_String *string, int at, const char *cstr, int length);
 
 
+/** append a string to another
+ *  returns the new string (possible relocation, see UTL_StringAppend)
+ *  same behavior as UTL_StringAppend(string, other->buf, other->length) */
+extern UTL_String* UTL_StringConcat(UTL_String *string, const UTL_String *other);
+
+
 /** find the first index of any of the given characters in a string, at or after @offset
  *  returns a negative value if no match is found */
 extern int UTL_StringFindFirstOfAny(const UTL_String *string, const char *match, int offset);
@@ -136,11 +142,6 @@ extern int UTL_StringTrim(UTL_String *string, const char *match);
  *  returns the number of characters removed */
 extern int UTL_StringGroup(UTL_String *string, const char *match, bool repalce);
 
-/** concatenates a string to another
- *  will compute length if @length is negative
- *  returns the new string (possible relocation)
- *  returns the string that results from concatenating @string2 to @string1 */
-extern UTL_String* UTL_StringConcatenate(UTL_String *string1, UTL_String *string2);
 
 /** reverses a given string @string */
 extern void UTL_StringReverse(UTL_String *string);
