@@ -175,42 +175,27 @@ static void UTL_LinkedListPushBack(UTL_LinkedList *list, void *obj) {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-static UTL_ListIter UTL_ArrayListGetIteratorFront(UTL_ArrayList *list) {
+static UTL_ListIter UTL_ArrayListGetIteratorAt(UTL_ArrayList *list, int at) {
     return (UTL_ListIter) {
         .list    = (UTL_List*) list,
         .auxData = NULL,
-        .index   = 0
+        .index   = at
     };
 }
 
 
-static UTL_ListIter UTL_ArrayListGetIteratorBack(UTL_ArrayList *list) {
+static UTL_ListIter UTL_LinkedListGetIteratorAt(UTL_LinkedList *list, int at) {
+    int forwardSteps  = at + 1;
+    int backwardSteps = list->count - at;
+
+    UTL_LinkedListNode *node = &list->sentinel;
+    if (forwardSteps < backwardSteps) while (forwardSteps--) node = node->next;
+    else                              while (backwardSteps--) node = node->prev;
+
     return (UTL_ListIter) {
         .list    = (UTL_List*) list,
-        .auxData = NULL,
-        .index   = list->count - 1
-    };
-}
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-static UTL_ListIter UTL_LinkedListGetIteratorFront(UTL_LinkedList *list) {
-    return (UTL_ListIter) {
-        .list    = (UTL_List*) list,
-        .auxData = list->sentinel.next,
-        .index   = 0
-    };
-
-}
-
-
-static UTL_ListIter UTL_LinkedListGetIteratorBack(UTL_LinkedList *list) {
-    return (UTL_ListIter) {
-        .list    = (UTL_List*) list,
-        .auxData = list->sentinel.prev,
-        .index   = list->count - 1
+        .auxData = node,
+        .index   = at
     };
 }
 
@@ -379,34 +364,31 @@ void* UTL_ListFold(UTL_List *list, void* (*foldFunc)(void*,void*), void *state) 
 
 /** get an iterator to the beginning of the list */
 UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list) {
-    switch (list->listType) {
-        case UTL_ARRAY_LIST:
-            return UTL_ArrayListGetIteratorFront((UTL_ArrayList*) list);
-        case UTL_LINKED_LIST:
-            return UTL_LinkedListGetIteratorFront((UTL_LinkedList*) list);
-        default:
-            return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
-    }
+    return UTL_ListGetIteratorAt(list, 0);
 }
 
 
 /** get an iterator to the end of the list */
 UTL_ListIter UTL_ListGetIteratorBack(UTL_List *list) {
-    switch (list->listType) {
-        case UTL_ARRAY_LIST:
-            return UTL_ArrayListGetIteratorBack((UTL_ArrayList*) list);
-        case UTL_LINKED_LIST:
-            return UTL_LinkedListGetIteratorBack((UTL_LinkedList*) list);
-        default:
-            return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
-    }
+    return UTL_ListGetIteratorAt(list, -1);
 }
+
 
 /** get an iterator pointing at an index in the list */
 UTL_ListIter UTL_ListGetIteratorAt(UTL_List *list, int at) {
-    (void) list;
-    (void) at;
-    return (UTL_ListIter) {};
+    if (at < 0) at = list->count + at;
+
+    if (at < 0 || at >= list->count)
+        return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
+
+    switch (list->listType) {
+        case UTL_ARRAY_LIST:
+            return UTL_ArrayListGetIteratorAt((UTL_ArrayList*) list, at);
+        case UTL_LINKED_LIST:
+            return UTL_LinkedListGetIteratorAt((UTL_LinkedList*) list, at);
+        default:
+            return (UTL_ListIter) { .list = NULL, .auxData = NULL, .index = 0 };
+    }
 }
 
 
