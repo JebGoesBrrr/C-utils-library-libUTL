@@ -27,6 +27,23 @@ static int UTL_ComputeNewStringCapacity(int minLength, int currentCapacity) {
 }
 
 
+int UTL_StringCompare(const UTL_String *string1, const UTL_String *string2) {
+    return strcmp(string1->buf, string2->buf);
+}
+
+unsigned UTL_StringHash(const UTL_String *string) {
+    // TODO
+    return 0;
+}
+
+const UTL_TypeInfo UTL_TypeInfoString = (UTL_TypeInfo) {
+    .size     = 0,
+    .name     = "UTL_String",
+    .cmpFunc  = (void*) &UTL_StringCompare,
+    .hashFunc = (void*) &UTL_StringHash
+};
+
+
 /** create a new UTL_String and initialze with given c-string
  *  leaves the new string empty if @from is null
  *  will compute length if @length is negative
