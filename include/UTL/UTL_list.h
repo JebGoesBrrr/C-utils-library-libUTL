@@ -113,6 +113,10 @@ extern UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list);
 extern UTL_ListIter UTL_ListGetIteratorBack(UTL_List *list);
 
 
+/** get an iterator pointing at an index in the list */
+extern UTL_ListIter UTL_ListGetIteratorAt(UTL_List *list, int at);
+
+
 // list iterators /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 

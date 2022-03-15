@@ -402,6 +402,13 @@ UTL_ListIter UTL_ListGetIteratorBack(UTL_List *list) {
     }
 }
 
+/** get an iterator pointing at an index in the list */
+UTL_ListIter UTL_ListGetIteratorAt(UTL_List *list, int at) {
+    (void) list;
+    (void) at;
+    return (UTL_ListIter) {};
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
