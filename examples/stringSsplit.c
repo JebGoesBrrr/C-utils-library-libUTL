@@ -1,6 +1,8 @@
 #include "UTL/UTL.h"
+#include "memcheck.h"
 
 int main() {
+    initMallocs();
 
     // string to be split
     UTL_String *s = UTL_StringCreate("Hello World and hello sun", -1);
@@ -54,5 +56,6 @@ int main() {
     UTL_ListDestroy(l);
     s = UTL_StringDestroy(s);
     
+    printMallocs();
     return 0;
 }

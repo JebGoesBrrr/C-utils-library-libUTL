@@ -1,6 +1,8 @@
 #include "UTL/UTL.h"
+#include "memcheck.h"
 
 int main() {
+    initMallocs();
 
     UTL_List *list = UTL_ListCreate(UTL_ARRAY_LIST, NULL, true);
 
@@ -21,5 +23,6 @@ int main() {
 
     printf("%s\n", s->buf);
 
+    printMallocs();
     return 0;
 }

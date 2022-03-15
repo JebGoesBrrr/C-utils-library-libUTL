@@ -28,8 +28,8 @@ build/test.exe: $(OBJ_TEST)
 tmp/%.o : src/%.c
 	$(CC) $(CFLAGS) -c -fpic $< -o $@
 
-build/example_%.exe : examples/%.c
-	$(CC) $(CFLAGS) $< -o $@ -L build -lUTL
+build/example_%.exe : examples/%.c examples/memcheck.h
+	$(CC) $(CFLAGS) $< -o $@ $(OBJ_LIB) -Wl,--wrap,malloc -Wl,--wrap,realloc -Wl,--wrap,free
 
 tmp/test/%.o : test/%.c
 	$(CC) $(CFLAGS) -c $< -o $@

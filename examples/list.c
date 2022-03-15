@@ -1,4 +1,5 @@
 #include "UTL/UTL.h"
+#include "memcheck.h"
 
 static void printList1(UTL_List *list) {
 
@@ -37,6 +38,8 @@ static void printList3(UTL_List *list) {
 }
 
 int main() {
+    initMallocs();
+
     UTL_List *l1 = UTL_ListCreate(UTL_ARRAY_LIST,  &UTL_TypeInfoInt, false);
     UTL_List *l2 = UTL_ListCreate(UTL_LINKED_LIST, &UTL_TypeInfoInt, false);
     UTL_List *l3 = UTL_ListCreate(UTL_ARRAY_LIST,  &UTL_TypeInfoInt, true);
@@ -78,5 +81,7 @@ int main() {
     UTL_ListDestroy(l2);
     UTL_ListDestroy(l3);
     UTL_ListDestroy(l4);
+
+    printMallocs();
     return 0;
 }
