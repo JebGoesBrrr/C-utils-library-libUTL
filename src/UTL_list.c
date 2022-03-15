@@ -104,6 +104,10 @@ void* UTL_LinkedListGet(UTL_LinkedList *list, int at) {
     return UTL_ListPos2Obj(list, node->obj);
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 void* UTL_ArrayListGetBack(UTL_ArrayList *list) {
     if (list->count == 0) return NULL;
 
@@ -111,11 +115,16 @@ void* UTL_ArrayListGetBack(UTL_ArrayList *list) {
     return UTL_ListPos2Obj(list, pos);
 }
 
+
 void* UTL_LinkedListGetBack(UTL_LinkedList *list) {
     if (list->count == 0) return NULL;
 
     return UTL_ListPos2Obj(list, list->sentinel.prev->obj);
 }
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 void* UTL_ArrayListGetFront(UTL_ArrayList *list) {
     if (list->count == 0) return NULL;
@@ -123,11 +132,13 @@ void* UTL_ArrayListGetFront(UTL_ArrayList *list) {
     return UTL_ListPos2Obj(list, list->data);
 }
 
+
 void* UTL_LinkedListGetFront(UTL_LinkedList *list) {
     if (list->count == 0) return NULL;
 
     return UTL_ListPos2Obj(list, list->sentinel.next->obj);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -182,6 +193,9 @@ static UTL_ListIter UTL_ArrayListGetIteratorBack(UTL_ArrayList *list) {
 }
 
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 static UTL_ListIter UTL_LinkedListGetIteratorFront(UTL_LinkedList *list) {
     return (UTL_ListIter) {
         .list    = (UTL_List*) list,
@@ -202,7 +216,6 @@ static UTL_ListIter UTL_LinkedListGetIteratorBack(UTL_LinkedList *list) {
 
 
 // abstract list functions ////////////////////////////////////////////////////////////////////////////////////////////
-
 
 
 /** free the memory associated with the given list */
@@ -258,6 +271,14 @@ void* UTL_ListGetFront(UTL_List *list) {
 }
 
 
+/** set object at given index in a list */
+void UTL_ListSet(UTL_List *list, int at, void *obj) {
+    (void) list;
+    (void) at;
+    (void) obj;
+}
+
+
 /** append a new object to the back of the list */
 void UTL_ListPushBack(UTL_List *list, void *obj) {
     switch (list->listType) {
@@ -270,6 +291,77 @@ void UTL_ListPushBack(UTL_List *list, void *obj) {
         default:
             break;
     }
+}
+
+
+/** prepend a new object to the front of the list */
+void UTL_ListPushFront(UTL_List *list, void *obj) {
+    (void) list;
+    (void) obj;
+}
+
+
+/** append a new object to the back of the list */
+void UTL_ListInsert(UTL_List *list, int at, void *obj) {
+    (void) list;
+    (void) at;
+    (void) obj;
+}
+
+
+/** remove the last object from a list */
+void UTL_ListPopBack(UTL_List *list) {
+    (void) list;
+}
+
+
+/** remove the first object from a list */
+void UTL_ListPopFront(UTL_List *list) {
+    (void) list;
+}
+
+
+/** remove the object at index @at from the list */
+void UTL_ListRemove(UTL_List *list, int at) {
+    (void) list;
+    (void) at;
+}
+
+
+/** find the first index of the given object, at or after @offset */
+int UTL_ListFindFirst(UTL_List *list, void *obj, int offset) {
+    (void) list;
+    (void) obj;
+    (void) offset;
+    return -1;
+}
+
+
+/** find the last index of the given object, at or before @offset */
+int UTL_ListFindLast(UTL_List *list, void *obj, int offset) {
+    (void) list;
+    (void) obj;
+    (void) offset;
+    return -1;
+}
+
+
+/** */
+bool UTL_ListContains(UTL_List *list, void *obj) {
+    return UTL_ListFindFirst(list, obj, 0) >= 0;
+}
+
+
+/** sort a list */
+void UTL_ListSort(UTL_List *list) {
+    (void) list;
+}
+
+
+/** return true if the given list is sorted */
+bool UTL_ListIsSorted(UTL_List *list) {
+    (void) list;
+    return false;
 }
 
 
