@@ -23,6 +23,9 @@ int main() {
 
     printf("%s\n", s->buf);
 
+    UTL_StringDestroy(s);
+    UTL_ListDestroy(list);
+
     printMallocs();
     return 0;
 }
