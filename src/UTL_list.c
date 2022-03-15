@@ -296,20 +296,22 @@ void UTL_ListInsert(UTL_List *list, int at, void *obj) {
 
 /** remove the last object from a list */
 void UTL_ListPopBack(UTL_List *list) {
-    (void) list;
+    if (!list->count) return;
+    UTL_ListRemove(list, list->count-1);
 }
 
 
 /** remove the first object from a list */
 void UTL_ListPopFront(UTL_List *list) {
-    (void) list;
+    if (!list->count) return;
+    UTL_ListRemove(list, 0);
 }
 
 
 /** remove the object at index @at from the list */
 void UTL_ListRemove(UTL_List *list, int at) {
-    (void) list;
-    (void) at;
+    UTL_ListIter iter = UTL_ListGetIteratorAt(list, at);
+    UTL_ListIterRemove(&iter);
 }
 
 
