@@ -158,7 +158,7 @@ extern bool UTL_StringIsLower(const UTL_String *string);
 /** check if a given string @string is uppercase */
 extern bool UTL_StringIsUpper(const UTL_String *string);
 
-/** replaces every occurence of a found @match in @string */
+/** replaces every occurence of a found @match in @string with what? */
 extern void UTL_StringFindAndReplace(UTL_String *string, const char *match);
 
 #endif // UTL_STRING_H
