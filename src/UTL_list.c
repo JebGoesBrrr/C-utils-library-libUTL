@@ -273,6 +273,18 @@ void UTL_ListPushBack(UTL_List *list, void *obj) {
 }
 
 
+void* UTL_ListFold(UTL_List *list, void* (*foldFunc)(void*,void*), void *state) {
+    UTL_ListIter iter = UTL_ListGetIteratorFront(list);
+
+    while (UTL_ListIterIsValid(&iter)) {
+        state = foldFunc(state, UTL_ListIterGet(&iter));
+        UTL_ListIterNext(&iter);
+    }
+
+    return state;
+}
+
+
 /** get an iterator to the beginning of the list */
 UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list) {
     switch (list->listType) {

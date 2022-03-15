@@ -102,6 +102,9 @@ extern void UTL_ListSort(UTL_List *list);
 extern bool UTL_ListIsSorted(UTL_List *list);
 
 
+extern void* UTL_ListFold(UTL_List *list, void* (*foldFunc)(void*,void*), void *state);
+
+
 /** get an iterator to the beginning of the list */
 extern UTL_ListIter UTL_ListGetIteratorFront(UTL_List *list);
 
