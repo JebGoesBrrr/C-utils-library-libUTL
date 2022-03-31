@@ -49,4 +49,29 @@ extern const UTL_TypeInfo UTL_TypeInfoFloat;
 #define UTL_FromPtr(type, ptr) (((union { type x; void *y;}) { .y = ptr}).x)
 
 
+
+typedef struct {
+    UTL_TypeInfo *keyInfo;
+    UTL_TypeInfo *valInfo;
+    bool keyByRef;
+    bool valByRef;
+} UTL_GenericInfo;
+
+static size_t UTL_GenericDataSize(UTL_GenericInfo *info) {
+    size_t keySizeRaw = info->keyByRef ? sizeof(void*) : info->keyInfo->size;
+
+    // no value?
+    if (!info->valInfo)
+        return keySizeRaw;
+
+    size_t keySize = (keySizeRaw % 8 == 0) ? (keySizeRaw) : (keySizeRaw + (8 - keySizeRaw % 8));
+
+    size_t valSizeRaw = info->valByRef ? sizeof(void*) : info->valInfo->size;
+    size_t valSize = (valSizeRaw % 8 == 0) ? (valSizeRaw) : (valSizeRaw + (8 - valSizeRaw % 8));
+
+    return keySize + valSize;
+}
+
+
+
 #endif // UTL_COMMON_H
