@@ -57,19 +57,23 @@ typedef struct {
     bool valByRef;
 } UTL_GenericInfo;
 
+static size_t UTL_GenericKeySizeRaw(UTL_GenericInfo *info) {
+    return info->keyByRef ? sizeof(void*) : info->keyInfo->size;
+}
+
+static size_t UTL_GenericValSizeRaw(UTL_GenericInfo *info) {
+    return info->valByRef ? sizeof(void*) : info->valInfo->size;
+}
+
+static size_t UTL_GenericAddPadding(size_t sizeRaw) {
+    return (sizeRaw % 8 == 0) ? (sizeRaw) : (sizeRaw + (8 - sizeRaw % 8));
+}
+
 static size_t UTL_GenericDataSize(UTL_GenericInfo *info) {
-    size_t keySizeRaw = info->keyByRef ? sizeof(void*) : info->keyInfo->size;
-
-    // no value?
     if (!info->valInfo)
-        return keySizeRaw;
+        return UTL_GenericKeySizeRaw(info);
 
-    size_t keySize = (keySizeRaw % 8 == 0) ? (keySizeRaw) : (keySizeRaw + (8 - keySizeRaw % 8));
-
-    size_t valSizeRaw = info->valByRef ? sizeof(void*) : info->valInfo->size;
-    size_t valSize = (valSizeRaw % 8 == 0) ? (valSizeRaw) : (valSizeRaw + (8 - valSizeRaw % 8));
-
-    return keySize + valSize;
+    return UTL_GenericAddPadding(UTL_GenericKeySizeRaw(info)) + UTL_GenericAddPadding(UTL_GenericKeySizeRaw(info));
 }
 
 static void* UTL_GenericGetKey(UTL_GenericInfo *info, void *dataPos) {
@@ -78,10 +82,9 @@ static void* UTL_GenericGetKey(UTL_GenericInfo *info, void *dataPos) {
 }
 
 static void* UTL_GenericGetVal(UTL_GenericInfo *info, void *dataPos) {
-    size_t keySizeRaw = info->keyByRef ? sizeof(void*) : info->keyInfo->size;
-    size_t keySize = (keySizeRaw % 8 == 0) ? (keySizeRaw) : (keySizeRaw + (8 - keySizeRaw % 8));
-
+    size_t keySize = UTL_GenericAddPadding(UTL_GenericKeySizeRaw(info));
     dataPos = (void*) (((uintptr_t)dataPos) + keySize);
+
     if (info->valByRef) return *((void**)dataPos);
     else return dataPos;
 }
@@ -94,10 +97,9 @@ static void UTL_GenericSetKey(UTL_GenericInfo *info, void *dataPos, void *key) {
 }
 
 static void UTL_GenericSetVal(UTL_GenericInfo *info, void *dataPos, void *val) {
-    size_t keySizeRaw = info->keyByRef ? sizeof(void*) : info->keyInfo->size;
-    size_t keySize = (keySizeRaw % 8 == 0) ? (keySizeRaw) : (keySizeRaw + (8 - keySizeRaw % 8));
-
+    size_t keySize = UTL_GenericAddPadding(UTL_GenericKeySizeRaw(info));
     dataPos = (void*) (((uintptr_t)dataPos) + keySize);
+
     if (info->valByRef)
         *((void**)dataPos) = val;
     else
