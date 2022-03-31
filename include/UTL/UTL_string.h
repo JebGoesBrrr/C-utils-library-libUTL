@@ -15,6 +15,8 @@ typedef struct {
 
 extern int UTL_StringCompare(const UTL_String *string1, const UTL_String *string2);
 
+extern unsigned UTL_CstringHash(const char *cstring);
+
 extern unsigned UTL_StringHash(const UTL_String *string);
 
 extern const UTL_TypeInfo UTL_TypeInfoString;

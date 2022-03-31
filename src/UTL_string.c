@@ -31,9 +31,17 @@ int UTL_StringCompare(const UTL_String *string1, const UTL_String *string2) {
     return strcmp(string1->buf, string2->buf);
 }
 
+unsigned UTL_CstringHash(const char *cstring) {
+    unsigned hash = 0;
+    while (*cstring) {
+        hash += *cstring;
+        cstring++;
+    }
+    return hash;
+}
+
 unsigned UTL_StringHash(const UTL_String *string) {
-    // TODO
-    return 0;
+    return UTL_CstringHash(string->buf);
 }
 
 const UTL_TypeInfo UTL_TypeInfoString = (UTL_TypeInfo) {
