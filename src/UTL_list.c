@@ -495,6 +495,11 @@ void UTL_ListIterSet(UTL_ListIter *iter, void *obj) {
     memcpy(pos, UTL_ListObj2Pos(iter->list, obj), UTL_ListDataSize(iter->list));
 }
 
+void UTL_ListIterRemove(UTL_ListIter *iter) {
+    (void) iter;
+    // TODO
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
