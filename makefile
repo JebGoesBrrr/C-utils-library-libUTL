@@ -1,7 +1,7 @@
 .phony: clean mkdirs
 
 CC 		= gcc
-CFLAGS	= -std=c99 -Wall -Wextra -O2 -I include
+CFLAGS	= -std=c99 -Wall -Wextra -Wno-unused-function -O2 -I include
 
 SRC_LIB  	= $(wildcard src/*.c)
 SRC_TEST 	= $(wildcard test/*.c)

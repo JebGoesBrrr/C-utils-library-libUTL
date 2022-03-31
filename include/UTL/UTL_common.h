@@ -72,6 +72,20 @@ static size_t UTL_GenericDataSize(UTL_GenericInfo *info) {
     return keySize + valSize;
 }
 
+static void* UTL_GenericGetKey(UTL_GenericInfo *info, void *dataPos) {
+    if (info->keyByRef) return *((void**)dataPos);
+    else return dataPos;
+}
+
+static void* UTL_GenericGetVal(UTL_GenericInfo *info, void *dataPos) {
+    size_t keySizeRaw = info->keyByRef ? sizeof(void*) : info->keyInfo->size;
+    size_t keySize = (keySizeRaw % 8 == 0) ? (keySizeRaw) : (keySizeRaw + (8 - keySizeRaw % 8));
+
+    dataPos = (void*) (((uintptr_t)dataPos) + keySize);
+    if (info->valByRef) return *((void**)dataPos);
+    else return dataPos;
+}
+
 
 
 #endif // UTL_COMMON_H
